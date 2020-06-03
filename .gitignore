@@ -27,5 +27,6 @@ build.xml
 build/
 dist/
 nbproject/
-
+.idea/
 .DS_Store
+
