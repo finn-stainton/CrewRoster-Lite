@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<!--  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="crew.xsd" -->
+<crewmembers>
+    <crew ID="CR0001" firstname="Jim" lastname="Workman"/>
+    <crew ID="CR0002" firstname="Jess" lastname="Hubble"/>
+</crewmembers>
