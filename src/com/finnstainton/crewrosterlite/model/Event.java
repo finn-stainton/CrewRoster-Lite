@@ -1,7 +1,7 @@
 /*
  * Dreamt, Designed and Developed by Finn Stainton (c) 2020.
  */
-package crewrosterlite;
+package com.finnstainton.crewrosterlite.model;
 
 import static java.lang.reflect.Array.set;
 import java.time.LocalDate;
@@ -159,31 +159,6 @@ public class Event {
      */
     public boolean removeCrew(String ID) {
         return this.crewIDs.remove(ID);
-    }
-    
-    /**
-     * Enables the user to roster crew to an event
-     */
-    public void consoleRosterCrew() {
-        Scanner scanner = new Scanner(System.in);
-        
-        System.out.println("### Roster Crew ###");
-        boolean run = true; 
-        do{
-            Crew crew = CrewRosterLiteApp.getCrewRecords().consoleGetCrew();
-            
-            //Is crew available for event?
-            if(crew.isAvailable(date, startTime, finishTime)) {
-                this.crewIDs.add(crew.getID());
-            }
-
-            System.out.print("Do you want to add another crew member (y/n): ");
-            String userinput = scanner.nextLine();
-
-            if(!userinput.equalsIgnoreCase("y")){
-                run = false;
-            } 
-        } while(run);
     }
 
     /**

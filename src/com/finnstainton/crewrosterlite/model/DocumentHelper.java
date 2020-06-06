@@ -1,7 +1,7 @@
 /*
  * Dreamt, Designed and Developed by Finn Stainton    2020.
  */
-package crewrosterlite;
+package com.finnstainton.crewrosterlite.model;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -1,7 +1,0 @@
-CrewRosterLite is designed to cater for the audio visual industrial.
-CrewRosterLite loads data from 'crew.xml' and 'clients.xml' files. 
-It also reads txts files (this blurb from a txt file, about.txt) and writes to a txt file with the latest job file name.
-
-To start off, CrewRosterLite has to have Clients, you can add a new client by selecting "Add Client".
-Now, add some crew by selecting "Add Crew". You are now ready to add your first Job.
-Select "Add Job", type the ID of the Client from the list. Then type the name of the Job.
