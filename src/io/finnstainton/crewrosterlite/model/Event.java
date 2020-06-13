@@ -1,8 +1,9 @@
 /*
  * Dreamt, Designed and Developed by Finn Stainton (c) 2020.
  */
-package com.finnstainton.crewrosterlite.model;
+package io.finnstainton.crewrosterlite.model;
 
+import io.finnstainton.crewrosterlite.CrewRosterLiteApp;
 import static java.lang.reflect.Array.set;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

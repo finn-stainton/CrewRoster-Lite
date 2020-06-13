@@ -1,16 +1,10 @@
 /*
  * Dreamt, Designed and Developed by Finn Stainton (c) 2020.
  */
-package com.finnstainton.crewrosterlite.model;
+package io.finnstainton.crewrosterlite.model;
 
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 /**
  * CrewRecord records multiple Crew objects.
@@ -24,43 +18,6 @@ public class CrewRecords {
      */
     public CrewRecords() {
         this.crewMap = new LinkedHashMap();
-    }
-    
-    /**
-     * Tries to load data from document into new CrewRecord 
-     * @param document XML Document with crew data
-     * @param logStartUp boolean which indicates if the user wants to see log data
-     */
-    public CrewRecords(Document document, Boolean logStartUp) {
-        this();
-        
-        //Load from document if not null
-        if(document != null){
-            DocumentHelper docHelper = new DocumentHelper();
-            Node rootNode = document.getDocumentElement();
-            Element root = (Element) rootNode;
-            
-            System.out.println(root.getTagName());
-            System.out.println("\n->Adding Crew");
-
-            //Foreach crew, load attributes
-            for (Node crewNode : docHelper.getAllChildNodes(rootNode, "crew")) {
-                String ID = docHelper.getAttributeString(crewNode, "ID");
-                String firstName = docHelper.getAttributeString(crewNode, "firstname");
-                String lastName = docHelper.getAttributeString(crewNode, "lastname");
-
-                Crew newCrew = new Crew(ID, firstName, lastName);
-                boolean crewAdded = this.addCrew(newCrew);
-                if(logStartUp) {
-                    System.out.print("Attempting to Add " + newCrew);
-                    if(crewAdded) {
-                        System.out.println(" - Succeed");
-                    } else {
-                        System.out.println(" - Failed");
-                    }
-                } 
-            }
-        }
     }
     
     /**

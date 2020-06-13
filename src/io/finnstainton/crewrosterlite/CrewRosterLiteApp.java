@@ -1,7 +1,11 @@
 /*
  * Dreamt, Designed, Developed by Finn Stainton (c) 2020.
  */
-package com.finnstainton.crewrosterlite.model;
+package io.finnstainton.crewrosterlite;
+
+import io.finnstainton.crewrosterlite.model.ClientRecords;
+import io.finnstainton.crewrosterlite.model.CrewRecords;
+import io.finnstainton.crewrosterlite.model.JobRecords;
 
 /**
  *

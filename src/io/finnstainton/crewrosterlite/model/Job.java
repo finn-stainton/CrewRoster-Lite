@@ -1,19 +1,12 @@
 /*
  * Dreamt, Designed and Developed by Finn Stainton (c) 2020.
  */
-package com.finnstainton.crewrosterlite.model;
+package io.finnstainton.crewrosterlite.model;
 
-import java.time.DateTimeException;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeParseException;
 import java.util.Collection;
-import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
 import java.util.Set;
 
 /**

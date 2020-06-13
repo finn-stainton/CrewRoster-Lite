@@ -1,7 +1,7 @@
 /*
  * Dreamt, Designed and Developed by Finn Stainton (c) 2020.
  */
-package com.finnstainton.crewrosterlite.model;
+package io.finnstainton.crewrosterlite.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -12,7 +12,7 @@ import java.util.Map;
  * Crew is an extension of a person, but has specialties. 
  * @author finnstainton (17982742)
  */
-public class Crew extends Person {
+public class Crew extends User {
     private Map<String, CrewWeekRoster> crewRosters;
     private HashSet<Specialties> specialties;
     
