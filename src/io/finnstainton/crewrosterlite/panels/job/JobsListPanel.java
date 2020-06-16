@@ -3,10 +3,12 @@
  */
 package io.finnstainton.crewrosterlite.panels.job;
 
+import javax.swing.JPanel;
+
 /**
  *
  * @author finnstainton
  */
-public class JobsListPanel {
+public class JobsListPanel extends JPanel {
     
 }

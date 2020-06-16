@@ -3,10 +3,12 @@
  */
 package io.finnstainton.crewrosterlite.panels.job;
 
+import javax.swing.JPanel;
+
 /**
  *
  * @author finnstainton
  */
-public class EventDetailsPanel {
+public class EventDetailsPanel extends JPanel {
     
 }

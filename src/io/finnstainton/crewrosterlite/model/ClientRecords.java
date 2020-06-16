@@ -11,7 +11,6 @@ import java.util.Map;
  */
 public class ClientRecords extends LinkedHashMap<String, Client> {
     private Map<String, Client> clientMap;
-    private boolean log;
     
     /**
      * Default Constructor. Sets up an empty ClientRecords
@@ -69,6 +68,23 @@ public class ClientRecords extends LinkedHashMap<String, Client> {
             return false;
         }
     }
+    
+    /**
+     * 
+     * @return 
+     */
+    public String[] getClientIDs() {
+        return (String[])this.clientMap.keySet().toArray();
+    }
+    
+    /**
+     * 
+     * @param clientID
+     * @return 
+     */
+    public Client getClient(String clientID) {
+        return this.clientMap.get(clientID);
+    }
         
     /**
      * Check if records are empty
@@ -81,14 +97,5 @@ public class ClientRecords extends LinkedHashMap<String, Client> {
         } else {
             return true;
         }
-    }
-    
-    /**
-     * Print all clients to console
-     */
-    public void print() {
-        this.clientMap.values().forEach((c) -> {
-            System.out.println("ID: " + c.getID() + ", " + c);
-        });
     }
 }

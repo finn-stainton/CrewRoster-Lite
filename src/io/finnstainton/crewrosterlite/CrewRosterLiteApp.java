@@ -3,53 +3,52 @@
  */
 package io.finnstainton.crewrosterlite;
 
-import io.finnstainton.crewrosterlite.model.ClientRecords;
-import io.finnstainton.crewrosterlite.model.CrewRecords;
-import io.finnstainton.crewrosterlite.model.JobRecords;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author finnstainton (17982742)
  */
-public class CrewRosterLiteApp {
-    public static final int MAX_YEAR = 2100;
-    private static CrewRecords crewRecords;
-    private static ClientRecords clientRecords;
-    private static JobRecords jobRecords;
+public class CrewRosterLiteApp extends JFrame {
+    private final CrewRosterLite model;
+    private final CrewRosterView view;
     
-    /**
-     * Constructor, Sets up a {@code CrewRosterLiteApp}
-     */
-    private CrewRosterLiteApp() {
-        crewRecords = new CrewRecords();
-        clientRecords = new ClientRecords();
-        jobRecords = new JobRecords();
-    }
-
-    public static ClientRecords getClientRecords() {
-        return clientRecords;
-    }
-
-    public static CrewRecords getCrewRecords() {
-        return crewRecords;
-    }
-    
-    /**
-     * runApp prints the main menu and then executes the users input 
-     * until the user exits
-     */
-    private void runApp() {
+    public CrewRosterLiteApp(String name) {
+        super(name);
+        this.model = new CrewRosterLite();
+        this.view = new CrewRosterView();
+        
+        
+        this.getContentPane().add(this.view);
+        setSize(1000, 700);
+        setResizable(false);
+        
+        
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                Object[] options = {"Save", "Cancel"};
+                int result = JOptionPane.showOptionDialog(getParent(), 
+                        "Do you want to save your work?", "Exit?", 
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, 
+                        null, options, options[0]);
+                if (result == JOptionPane.YES_OPTION) {
+                    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                } else {
+                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                }
+            }
+        });
+        
         
     }
     
-    /******************** Main ********************/
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        CrewRosterLiteApp app = new CrewRosterLiteApp();
-
-        //Run App
-        app.runApp();
+        JFrame frame = new CrewRosterLiteApp("CrewRoster Lite");
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 }
