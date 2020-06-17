@@ -5,7 +5,7 @@ package io.finnstainton.crewrosterlite;
 
 import io.finnstainton.crewrosterlite.model.ClientRecords;
 import io.finnstainton.crewrosterlite.model.CrewRecords;
-import io.finnstainton.crewrosterlite.model.JobRecords;
+//import io.finnstainton.crewrosterlite.controller.JobController;
 
 /**
  *
@@ -15,7 +15,7 @@ public class CrewRosterLite {
     public static final int MAX_YEAR = 2100;
     private static CrewRecords crewRecords;
     private static ClientRecords clientRecords;
-    private static JobRecords jobRecords;
+//    private static JobController jobRecords;
     
     /**
      * Constructor, Sets up a {@code CrewRosterLite}
@@ -23,7 +23,7 @@ public class CrewRosterLite {
     public CrewRosterLite() {
         crewRecords = new CrewRecords();
         clientRecords = new ClientRecords();
-        jobRecords = new JobRecords();
+//        jobRecords = new JobController();
     }
 
     public static ClientRecords getClientRecords() {

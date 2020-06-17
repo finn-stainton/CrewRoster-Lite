@@ -3,6 +3,7 @@
  */
 package io.finnstainton.crewrosterlite;
 
+import io.finnstainton.crewrosterlite.panels.NavbarPanel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
@@ -15,12 +16,15 @@ import javax.swing.JOptionPane;
 public class CrewRosterLiteApp extends JFrame {
     private final CrewRosterLite model;
     private final CrewRosterView view;
+    private final NavbarPanel navbar;
     
     public CrewRosterLiteApp(String name) {
         super(name);
         this.model = new CrewRosterLite();
         this.view = new CrewRosterView();
+        this.navbar = new NavbarPanel();
         
+        this.add(this.view);
         
         this.getContentPane().add(this.view);
         setSize(1000, 700);
@@ -43,7 +47,7 @@ public class CrewRosterLiteApp extends JFrame {
             }
         });
         
-        
+        this.setJMenuBar(navbar);
     }
     
     public static void main(String[] args) {

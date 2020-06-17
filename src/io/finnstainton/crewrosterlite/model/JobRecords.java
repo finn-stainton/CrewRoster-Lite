@@ -3,23 +3,22 @@
  */
 package io.finnstainton.crewrosterlite.model;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeParseException;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Observable;
 import java.util.Set;
 
 /**
  *
  * @author finnstainton (17982742)
  */
- public class JobRecords extends LinkedHashMap<String, Job> {
+ public class JobRecords extends Observable {
         private Map<String, Job> jobMap;
 
         /**
          * Default Constructor
+         * @param app
          */
         public JobRecords() {
             this.jobMap = new LinkedHashMap<>();
@@ -113,17 +112,8 @@ import java.util.Set;
                 System.out.println("No Jobs.");
             }else {
                 this.jobMap.values().forEach((job) -> {
-                    System.out.print("ID: " + job.getID() + ", ");
                     job.print();
-                });
-            }
-        }
-        
-        public void printJobSummarys() {
-            if(!this.isJobsEmpty()) {
-                System.out.println("Jobs");
-                this.jobMap.values().forEach((job) -> {
-                    System.out.println("ID: " + job.getID() + ", " + job.getTitle());
+                    System.out.println();
                 });
             }
         }
