@@ -3,7 +3,6 @@
  */
 package io.finnstainton.crewrosterlite.model;
 
-import io.finnstainton.crewrosterlite.CrewRosterLite;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashSet;
@@ -172,7 +171,7 @@ public class Event {
 
         //Crew
         for(String ID : this.crewIDs) {
-            Crew crew = CrewRosterLite.getCrewRecords().getCrew(ID);
+            Crew crew = CrewRosterLiteModel.getCrewRecords().getCrew(ID);
             
             if(crew != null) {
                 output.append(crew.getInitials().concat(" "));

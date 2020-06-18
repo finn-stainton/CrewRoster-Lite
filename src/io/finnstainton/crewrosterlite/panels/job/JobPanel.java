@@ -3,63 +3,81 @@
  */
 package io.finnstainton.crewrosterlite.panels.job;
 
-import io.finnstainton.crewrosterlite.panels.NavbarPanel;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import io.finnstainton.crewrosterlite.model.JobRecords;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  *
  * @author finnstainton
  */
-public class JobPanel extends JPanel implements ActionListener, DocumentListener{
-    private final JobsListPanel jobList;
-    private final JobDetailsPanel jobDetails;
-    private final EventsListPanel eventList;
-    private final EventDetailsPanel eventDetails;
+public class JobPanel extends JPanel implements ListSelectionListener{
+    private final JobRecords jobRecords;
+    private final JScrollPane scrollPane;
+    private final JList<String> list;
+    private final DefaultListModel<String> listModel;
     
-    public JobPanel() {
-        super(new GridLayout(3,3));
+    public JobPanel(JobRecords jobRecords) {
+        super(new GridBagLayout());
         
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         }catch(Exception e) {}
         
-        //
-        this.jobList = new JobsListPanel();
-        this.jobDetails = new JobDetailsPanel();
-        this.eventList = new EventsListPanel();
-        this.eventDetails = new EventDetailsPanel();
+        setSize(1000-10, 700-50);
+        this.jobRecords = jobRecords;
+        GridBagConstraints constraints = new GridBagConstraints();
         
-        //
-        this.add(this.jobList);
-        this.add(this.jobDetails);
-        this.add(this.eventList);
-        this.add(this.eventDetails);
+        //Setup Job List
+        this.listModel = new DefaultListModel<>();
+        String[] jobs;
+        try{
+            jobs = this.jobRecords.getJobsIDs();
+            for(int c = 0; c < jobRecords.getNumberJobs(); c++){
+                listModel.addElement(jobs[c]);
+            }
+        } catch(NullPointerException nullPointer) {
+            jobs = new String[0];
+        }
+        
+        list = new JList<>(listModel);
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list.setLayoutOrientation(JList.VERTICAL);
+        list.setVisibleRowCount(-1);
+        list.setBorder(BorderFactory.createTitledBorder("Jobs"));
+        scrollPane = new JScrollPane(list);
+        
+        constraints.fill = GridBagConstraints.VERTICAL;
+        constraints.ipady = 40;      //make this component tall
+        constraints.weightx = 0.0;
+        constraints.gridwidth = 3;
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        
+        //Listeners
+        list.addListSelectionListener(this);
+        
+        this.add(scrollPane, constraints);
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void insertUpdate(DocumentEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void removeUpdate(DocumentEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void changedUpdate(DocumentEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void valueChanged(ListSelectionEvent e) {
+        JList<String> list = (JList)e.getSource();
+        if(list.getValueIsAdjusting()) {
+            if (list.getSelectedValue() != null) {
+                
+            } else {
+                
+            }
+        }
     }
 }

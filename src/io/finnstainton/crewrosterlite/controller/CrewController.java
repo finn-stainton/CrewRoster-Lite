@@ -1,9 +1,9 @@
 /*
  * Dreamt, Designed and Developed by Finn Stainton (c) 2020
  */
-package io.finnstainton.crewrosterlite;
+package io.finnstainton.crewrosterlite.controller;
 
-import io.finnstainton.crewrosterlite.model.CrewRecords;
+import io.finnstainton.crewrosterlite.model.Records;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,10 +12,10 @@ import java.awt.event.ActionListener;
  * @author finnstainton
  */
 public class CrewController implements ActionListener{
-    private final CrewRecords crewRecords;
+    private final Records crewRecords;
     
-    public CrewController() {
-        this.crewRecords = new CrewRecords();
+    public CrewController(Records crewRecords) {
+        this.crewRecords = crewRecords;
     }
     
     @Override

@@ -3,56 +3,36 @@
  */
 package io.finnstainton.crewrosterlite;
 
-import io.finnstainton.crewrosterlite.panels.NavbarPanel;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import io.finnstainton.crewrosterlite.model.CrewRosterLiteModel;
+import io.finnstainton.crewrosterlite.view.CrewRosterLiteView;
+import io.finnstainton.crewrosterlite.controller.CrewRosterLiteController;
 
 /**
- *
  * @author finnstainton (17982742)
  */
-public class CrewRosterLiteApp extends JFrame {
-    private final CrewRosterLite model;
-    private final CrewRosterView view;
-    private final NavbarPanel navbar;
+public class CrewRosterLiteApp {
+    private final CrewRosterLiteModel model;
+    private final CrewRosterLiteView view;
+    private final CrewRosterLiteController controller;
     
-    public CrewRosterLiteApp(String name) {
-        super(name);
-        this.model = new CrewRosterLite();
-        this.view = new CrewRosterView();
-        this.navbar = new NavbarPanel();
+    public CrewRosterLiteApp() {
+        this.model = new CrewRosterLiteModel();
+        this.view = new CrewRosterLiteView("CrewRoster Lite");
+        this.controller = new CrewRosterLiteController();
         
-        this.add(this.view);
+        this.model.addObserver(this.view);
+        this.controller.addModel(this.model);
+        this.controller.addView(this.view);
         
-        this.getContentPane().add(this.view);
-        setSize(1000, 700);
-        setResizable(false);
+        this.view.addController(this.controller);
         
-        
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                Object[] options = {"Save", "Cancel"};
-                int result = JOptionPane.showOptionDialog(getParent(), 
-                        "Do you want to save your work?", "Exit?", 
-                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, 
-                        null, options, options[0]);
-                if (result == JOptionPane.YES_OPTION) {
-                    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                } else {
-                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-                }
-            }
-        });
-        
-        this.setJMenuBar(navbar);
     }
     
     public static void main(String[] args) {
-        JFrame frame = new CrewRosterLiteApp("CrewRoster Lite");
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        CrewRosterLiteApp app = new CrewRosterLiteApp();
     }
 }
+
+//JFrame frame = new CrewRosterLiteApp("CrewRoster Lite");
+//        frame.setLocationRelativeTo(null);
+//        frame.setVisible(true);

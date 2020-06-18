@@ -20,6 +20,21 @@ public class CrewRecords {
         this.crewMap = new LinkedHashMap();
     }
     
+    private String generate ID
+    public boolean addCrew(String first, String last) {
+        Crew crew = new Crew(this.crewMap.size())
+        if(crew != null && this.crewMap != null) {
+            if(!this.crewMap.containsKey(crew.getID())) {
+                this.crewMap.put(crew.getID(), crew);
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    
     /**
      * Adds Crew to the records
      * @param crew Crew object to add
