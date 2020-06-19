@@ -4,12 +4,13 @@
 package io.finnstainton.crewrosterlite.model;
 
 import java.util.LinkedHashMap;
+import java.util.Observable;
 
 /**
  *
  * @author finnstainton
  */
-public class Records<K, V> {
+public class Records<K, V> extends Observable{
     private LinkedHashMap<K, V> map;
     
     public V getValue(K key) {
@@ -46,5 +47,16 @@ public class Records<K, V> {
     
     public K[] getKeyArray() {
         return (K[])this.map.keySet().toArray();
+    }
+    
+    public void printValues(){
+        if(this.map.isEmpty()) {
+             System.out.println("No Values.");
+        }else {
+            this.map.values().forEach((value) -> {
+                value.toString();
+                System.out.println();
+            });
+        }
     }
 }

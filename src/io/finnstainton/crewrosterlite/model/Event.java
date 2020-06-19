@@ -171,11 +171,11 @@ public class Event {
 
         //Crew
         for(String ID : this.crewIDs) {
-            Crew crew = CrewRosterLiteModel.getCrewRecords().getCrew(ID);
+            //Crew crew = CrewRosterLiteModel.getCrewRecords().getCrew(ID);
             
-            if(crew != null) {
-                output.append(crew.getInitials().concat(" "));
-            }
+            //if(crew != null) {
+            //    output.append(crew.getInitials().concat(" "));
+            //}
         }
             
         return output.toString();

@@ -17,7 +17,7 @@ public class CrewRosterLiteApp {
     
     public CrewRosterLiteApp() {
         this.model = new CrewRosterLiteModel();
-        this.view = new CrewRosterLiteView("CrewRoster Lite");
+        this.view = new CrewRosterLiteView();
         this.controller = new CrewRosterLiteController();
         
         this.model.addObserver(this.view);
@@ -33,6 +33,3 @@ public class CrewRosterLiteApp {
     }
 }
 
-//JFrame frame = new CrewRosterLiteApp("CrewRoster Lite");
-//        frame.setLocationRelativeTo(null);
-//        frame.setVisible(true);

@@ -3,7 +3,7 @@
  */
 package io.finnstainton.crewrosterlite.view;
 
-import io.finnstainton.crewrosterlite.model.CrewRecords;
+
 
 /**
  *
@@ -180,8 +180,7 @@ public class CrewForm extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        try{
-            CrewRecords.addCrew(jTextField1.getText(), jTextField2.getText());
+       
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

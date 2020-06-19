@@ -15,6 +15,8 @@ import java.awt.event.ActionListener;
 public class CrewRosterLiteController implements ActionListener{
     private CrewRosterLiteModel model;
     private CrewRosterLiteView view;
+    
+    // Controllers
     private final CrewController crewController;
     private final ClientController clientController;
     private final JobController jobController;

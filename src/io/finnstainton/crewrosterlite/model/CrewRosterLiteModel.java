@@ -10,8 +10,10 @@ import java.util.Observable;
  * Model
  * @author finnstainton
  */
-public class CrewRosterLiteModel {
+public class CrewRosterLiteModel extends Observable{
     public static final int MAX_YEAR = 2100;
+    
+    // Models 
     private static Records<String, Crew> crewRecords;
     private static Records<String, Client> clientRecords;
     private static Records<String, Job> jobRecords;
@@ -25,7 +27,7 @@ public class CrewRosterLiteModel {
         jobRecords = new Records<>();
     }
     
-    Database db = new Database();
+//    Database db = new Database();
     
     // Do you want to get all records from db or access them one at a time (maybe just load all IDs)?
 

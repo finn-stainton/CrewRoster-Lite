@@ -4,20 +4,14 @@
 package io.finnstainton.crewrosterlite.view;
 
 import io.finnstainton.crewrosterlite.controller.CrewRosterLiteController;
-import io.finnstainton.crewrosterlite.model.CrewRosterLiteModel;
 import io.finnstainton.crewrosterlite.panels.NavbarPanel;
-import io.finnstainton.crewrosterlite.panels.entry.SignInPanel;
-import io.finnstainton.crewrosterlite.panels.entry.SignUpPanel;
-import io.finnstainton.crewrosterlite.panels.job.JobPanel;
-import java.awt.CardLayout;
-import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+
 
 /**
  * View
@@ -25,34 +19,18 @@ import javax.swing.JPanel;
  */
 public class CrewRosterLiteView extends JFrame implements Observer{
     private final NavbarPanel navbar;
-    private final JPanel content = new JPanel();
-    private final CardLayout cardLayout = new CardLayout();
-    private final SignInPanel signinPanel;
-    private final SignUpPanel signupPanel;
-    private final JobPanel jobPanel;
-    private final CrewRosterLiteModel model;
     
-    
-    // Views 
-    private final JobView jobView;
-    
-    public CrewRosterLiteView(String name) {
+    public CrewRosterLiteView() {
+        JFrame frame = new JFrame("CrewRoster Lite");
+        
+        // Navbar
         this.navbar = new NavbarPanel();
+        frame.setJMenuBar(this.navbar);
         
-        // Panels
-        
-        
-        this.add(this.view);
-        
-        this.getContentPane().add(this.view);
-        setSize(1000, 700);
-        setResizable(false);
-        
-        //FIXME: Options maybe inwrong order
-        this.addWindowListener(new WindowAdapter() {
+        frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                Object[] options = {"Save", "Cancel", "Don't Save"};
+                Object[] options = {"Save", "Don't Save", "Cancel"};
                 int result = JOptionPane.showOptionDialog(getParent(), 
                         "Do you want to save your work?", "Exit?", 
                         JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, 
@@ -71,49 +49,36 @@ public class CrewRosterLiteView extends JFrame implements Observer{
             }
         });
         
-        this.setJMenuBar(navbar);
-        
-        
-        this.setLayout(new GridLayout());
-        this.signinPanel = new SignInPanel();
-        this.signupPanel = new SignUpPanel();
-        this.jobPanel = new JobPanel(model.getJobRecords());
-        
-        content.setLayout(cardLayout);
-        content.add(this.signinPanel);
-        content.add(this.signupPanel);
-        content.add(this.jobPanel);
-        
-        this.cardLayout.addLayoutComponent(this.signinPanel, "signin");
-        this.cardLayout.addLayoutComponent(this.signupPanel, "signup");
-        this.cardLayout.addLayoutComponent(this.jobPanel, "job");
-        this.cardLayout.show(content, "job");
-        
-        this.add(content);
+        frame.setSize(1000, 700);
+        frame.setResizable(false);
+        frame.setVisible(true);
     }
     
     public void addController(CrewRosterLiteController controller) {
         
     }
 
-    public JPanel getContent() {
-        return content;
-    }
-
-    public SignInPanel getSigninPanel() {
-        return signinPanel;
-    }
-
-    public SignUpPanel getSignupPanel() {
-        return signupPanel;
-    }
-
-    public JobPanel getJobPanel() {
-        return jobPanel;
-    }
-
     @Override
     public void update(Observable o, Object arg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 }
+
+//
+//        
+//        this.setLayout(new GridLayout());
+//        this.signinPanel = new SignInPanel();
+//        this.signupPanel = new SignUpPanel();
+//        this.jobPanel = new JobPanel(model.getJobRecords());
+//        
+//        content.setLayout(cardLayout);
+//        content.add(this.signinPanel);
+//        content.add(this.signupPanel);
+//        content.add(this.jobPanel);
+//        
+//        this.cardLayout.addLayoutComponent(this.signinPanel, "signin");
+//        this.cardLayout.addLayoutComponent(this.signupPanel, "signup");
+//        this.cardLayout.addLayoutComponent(this.jobPanel, "job");
+//        this.cardLayout.show(content, "job");
+//        
+//        this.add(content);

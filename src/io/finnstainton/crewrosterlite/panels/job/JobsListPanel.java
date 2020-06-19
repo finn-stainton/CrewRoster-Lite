@@ -3,7 +3,8 @@
  */
 package io.finnstainton.crewrosterlite.panels.job;
 
-import io.finnstainton.crewrosterlite.model.JobRecords;
+import io.finnstainton.crewrosterlite.model.Job;
+import io.finnstainton.crewrosterlite.model.Records;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -18,17 +19,17 @@ import javax.swing.event.ListSelectionListener;
  * @author finnstainton (17982742)
  */
 public class JobsListPanel extends JPanel implements ListSelectionListener{
-    private final JobRecords jobRecords;
+    private final Records<String, Job> jobRecords;
     private final JScrollPane scrollPane;
     private final JList<String> list;
     private final DefaultListModel<String> listModel;
     
-    public JobsListPanel(JobRecords jobRecords) {
+    public JobsListPanel(Records jobRecords) {
         this.jobRecords = jobRecords;
         
         this.listModel = new DefaultListModel<>();
-        String[] jobs = this.jobRecords.getJobsIDs();
-        for(int c = 0; c < jobRecords.getNumberJobs(); c++){
+        String[] jobs = this.jobRecords.getKeyArray();
+        for(int c = 0; c < jobRecords.getNumberValues(); c++){
             listModel.addElement(jobs[c]);
         }
         
