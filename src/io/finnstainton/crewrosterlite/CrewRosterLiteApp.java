@@ -4,8 +4,6 @@
 package io.finnstainton.crewrosterlite;
 
 import io.finnstainton.crewrosterlite.model.CrewRosterLiteModel;
-import io.finnstainton.crewrosterlite.view.CrewRosterLiteView;
-import io.finnstainton.crewrosterlite.controller.CrewRosterLiteController;
 
 /**
  * @author finnstainton (17982742)
@@ -25,7 +23,7 @@ public class CrewRosterLiteApp {
         this.controller.addView(this.view);
         
         this.view.addController(this.controller);
-        
+        this.view.setVisible(true);
     }
     
     public static void main(String[] args) {
@@ -33,3 +31,4 @@ public class CrewRosterLiteApp {
     }
 }
 
+ 

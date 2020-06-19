@@ -3,6 +3,8 @@
  */
 package io.finnstainton.crewrosterlite.model;
 
+import io.finnstainton.crewrosterlite.Database;
+import io.finnstainton.crewrosterlite.UpdateInfo;
 import java.util.LinkedHashMap;
 import java.util.Observable;
 
@@ -12,6 +14,13 @@ import java.util.Observable;
  */
 public class Records<K, V> extends Observable{
     private LinkedHashMap<K, V> map;
+    private final Database db;
+    private UpdateInfo uInfo;
+    
+    public Records() {
+        this.map = new LinkedHashMap<>();
+        this.db = new Database();
+    }
     
     public V getValue(K key) {
         if(key != null  && this.map != null){

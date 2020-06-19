@@ -9,6 +9,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,13 +18,18 @@ import javax.swing.JOptionPane;
  * @author finnstainton
  */
 public class Database {
-    private final String dbURL = "jdbc:derby:CrewRosterDB;create=true";
+    private final String dbURL = "jdbc:derby://localhost:1527/CrewRosterDB;create=true";
     private final String dbUsername = "dbadmin";
-    private final String dbPassword = "";
+    private final String dbPassword = "crewroster";
     private Connection conn;
     private Statement statement;
     
-    protected Database() {
+    public Database() {
+        try{
+            DriverManager.registerDriver(new org.apache.derby.jdbc.EmbeddedDriver());
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
          if (!connect()) {
             Object[] options = {"OK"};
             JOptionPane.showOptionDialog(null, "DB Connection Fail", 
@@ -33,7 +40,7 @@ public class Database {
         dbSetup();
     }
     
-    protected boolean connect() {
+    public boolean connect() {
         boolean success = false;
         try {
             conn = DriverManager.getConnection(dbURL, dbUsername, dbPassword);
@@ -48,7 +55,7 @@ public class Database {
         return success;
     }
     
-    protected void dbSetup() {
+    public void dbSetup() {
         try {
             // Crew Table
             if (!checkTable("Crew")){
@@ -88,7 +95,7 @@ public class Database {
         }
     }
     
-    protected boolean checkTable(String tableName) {
+    public boolean checkTable(String tableName) {
         boolean tableExists = false;
         try {
             DatabaseMetaData dbMetaData = conn.getMetaData();

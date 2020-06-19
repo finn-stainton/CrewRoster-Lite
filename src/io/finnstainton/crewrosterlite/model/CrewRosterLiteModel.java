@@ -4,6 +4,7 @@
 package io.finnstainton.crewrosterlite.model;
 
 import io.finnstainton.crewrosterlite.Database;
+import io.finnstainton.crewrosterlite.UpdateInfo;
 import java.util.Observable;
 
 /**
@@ -11,37 +12,50 @@ import java.util.Observable;
  * @author finnstainton
  */
 public class CrewRosterLiteModel extends Observable{
-    public static final int MAX_YEAR = 2100;
-    
-    // Models 
-    private static Records<String, Crew> crewRecords;
-    private static Records<String, Client> clientRecords;
-    private static Records<String, Job> jobRecords;
+    private static final int MAX_YEAR = 2100;
+//    private Database db;// Do you want to get all records from db or access them one at a time (maybe just load all IDs)?
+    private UpdateInfo uInfo;
+    private String[] crewIDs, clientIDs, jobIDs;
+    private final Records<String, Client> crewRecords;
+    private final Records<String, Client> clientRecords;
+    private final Records<String, Job> jobRecords;
     
     /**
      * Constructor, Sets up a {@code CrewRosterLite}
      */
     public CrewRosterLiteModel() {
-        crewRecords = new Records<>();
-        clientRecords = new Records<>();
-        jobRecords = new Records<>();
+//        this.db = new Database();
+        this.crewRecords = new Records<>();
+        this.clientRecords = new Records<>();
+        this.jobRecords = new Records<>();
     }
-    
-//    Database db = new Database();
-    
-    // Do you want to get all records from db or access them one at a time (maybe just load all IDs)?
 
-    public static Records<String, Crew> getCrewRecords() {
+//    public Database getDb() {
+//        return db;
+//    }
+
+    public Records<String, Client> getCrewRecords() {
         return crewRecords;
     }
-
-    public static Records<String, Client> getClientRecords() {
-        return clientRecords;
+    
+    public Records<String, Client> getClientRecords() {
+        return clientRecords; 
     }
 
-    public static Records<String, Job> getJobRecords() {
+    public Records<String, Job> getJobRecords() {
         return jobRecords;
     }
-    
+   
     
 }
+
+//public class CrewRecords extends Records<String, Crew> {
+//        
+//        public CrewRecords() {
+//            super();
+//        }
+//        
+//        public void getCrew(String ID) {
+//            super.getValue(ID);
+//        }
+//    }

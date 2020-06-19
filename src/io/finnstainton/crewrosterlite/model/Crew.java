@@ -6,14 +6,14 @@ package io.finnstainton.crewrosterlite.model;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashSet;
-import java.util.Map;
 
 /**
  * Crew is an extension of a person, but has specialties. 
  * @author finnstainton (17982742)
  */
-public class Crew extends User {
-    private Map<String, CrewWeekRoster> crewRosters;
+public class Crew extends Person{
+    private String username;
+    private Records<String, Event> events;
     private HashSet<Specialties> specialties;
     
     /**
