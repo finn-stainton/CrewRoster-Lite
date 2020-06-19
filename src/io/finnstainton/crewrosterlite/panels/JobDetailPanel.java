@@ -6,6 +6,7 @@ package io.finnstainton.crewrosterlite.panels;
 import io.finnstainton.crewrosterlite.CrewRosterLiteController;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JLabel;
@@ -25,6 +26,7 @@ public class JobDetailPanel extends JPanel implements Observer{
         this.setBackground(Color.WHITE);
         
         this.jobTitleLabel = new JLabel("Job Title");
+        this.jobTitleLabel.setFont(new Font("Open Sans", Font.PLAIN, 40));
         this.clientLabel = new JLabel("Client");
         this.venueLabel = new JLabel("Venue");
         

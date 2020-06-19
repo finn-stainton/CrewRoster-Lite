@@ -39,11 +39,11 @@ public class NavbarPanel extends JMenuBar implements Observer{
         this.add(Box.createHorizontalGlue());
         
         actionsMenu = new JMenu("Actions");
-        actionsMenu.setForeground(Color.white);
-        actionsMenu.setBackground(new Color(40,40,40));
+//        actionsMenu.setForeground(Color.white);
+//        actionsMenu.setBackground(new Color(40,40,40));
         accountMenu = new JMenu("Account");
-        accountMenu.setForeground(Color.white);
-        //cacountMenu.setBackground(new Color(40,40,40));
+//        accountMenu.setForeground(Color.white);
+//        accountMenu.setBackground(new Color(40,40,40));
         accountMenu.setOpaque(true);
        
         // Setup actionsMenu
@@ -81,8 +81,6 @@ public class NavbarPanel extends JMenuBar implements Observer{
         this.add(accountMenu);
         
         this.add(Box.createRigidArea(new Dimension(25,50)));
-
-        
     }
     
     public void addController(CrewRosterLiteController controller) {

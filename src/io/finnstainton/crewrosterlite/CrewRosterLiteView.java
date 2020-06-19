@@ -3,6 +3,8 @@
  */
 package io.finnstainton.crewrosterlite;
 
+import io.finnstainton.crewrosterlite.panels.ClientForm;
+import io.finnstainton.crewrosterlite.panels.JobForm;
 import io.finnstainton.crewrosterlite.panels.JobPanel;
 import io.finnstainton.crewrosterlite.panels.NavbarPanel;
 import java.awt.CardLayout;
@@ -24,6 +26,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class CrewRosterLiteView extends JFrame implements Observer {
     private final NavbarPanel navbar;
     private JobPanel jobPanel = new JobPanel();
+    private JobForm jobForm = new JobForm();
+    private ClientForm clientForm = new ClientForm();
     
     
     public CrewRosterLiteView() {
@@ -73,12 +77,25 @@ public class CrewRosterLiteView extends JFrame implements Observer {
     
     public void addController(CrewRosterLiteController controller) {
         this.jobPanel.addController(controller);
+        this.navbar.addController(controller);
     }
 
     @Override
     public void update(Observable o, Object arg) {
         UpdateInfo update = (UpdateInfo) arg;   
     }
+
+    public JobForm getJobForm() {
+        return jobForm;
+    }
+
+    public ClientForm getClientForm() {
+        return clientForm;
+    }
+    
+    
+    
+    
 }
 
 //

@@ -3,14 +3,14 @@
  */
 package io.finnstainton.crewrosterlite;
 
+import io.finnstainton.crewrosterlite.model.Client;
+import io.finnstainton.crewrosterlite.model.Crew;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -25,12 +25,13 @@ public class Database {
     private Statement statement;
     
     public Database() {
-        try{
-            DriverManager.registerDriver(new org.apache.derby.jdbc.EmbeddedDriver());
-        } catch (SQLException ex) {
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         if (!connect()) {
+//        try{
+//            DriverManager.registerDriver(new org.apache.derby.jdbc.EmbeddedDriver());
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+
+        if (!connect()) {
             Object[] options = {"OK"};
             JOptionPane.showOptionDialog(null, "DB Connection Fail", 
                     "Couldn't open a connection with the Database", 
@@ -120,10 +121,16 @@ public class Database {
     // Sign Up(Register)
     
     // Add Crew
+    public void addCrew(Crew crew) {
+        
+    }
     
     // Load Crew
     
     // Add Client
+    public void addClient(Client client) {
+        
+    }
     
     // Load Client
     

@@ -9,14 +9,14 @@ import java.util.Observable;
 
 /**
  * Model
- * @author finnstainton
+ * @author finnstainton (17982742)
  */
 public class CrewRosterLiteModel extends Observable{
     private static final int MAX_YEAR = 2100;
-//    private Database db;// Do you want to get all records from db or access them one at a time (maybe just load all IDs)?
+    private Database db;// Do you want to get all records from db or access them one at a time (maybe just load all IDs)?
     private UpdateInfo uInfo;
     private String[] crewIDs, clientIDs, jobIDs;
-    private final Records<String, Client> crewRecords;
+    private final Records<String, Crew> crewRecords;
     private final Records<String, Client> clientRecords;
     private final Records<String, Job> jobRecords;
     
@@ -24,17 +24,17 @@ public class CrewRosterLiteModel extends Observable{
      * Constructor, Sets up a {@code CrewRosterLite}
      */
     public CrewRosterLiteModel() {
-//        this.db = new Database();
+        this.db = new Database();
         this.crewRecords = new Records<>();
         this.clientRecords = new Records<>();
         this.jobRecords = new Records<>();
     }
 
-//    public Database getDb() {
-//        return db;
-//    }
+    public Database getDb() {
+        return db;
+    }
 
-    public Records<String, Client> getCrewRecords() {
+    public Records<String, Crew> getCrewRecords() {
         return crewRecords;
     }
     
@@ -45,17 +45,4 @@ public class CrewRosterLiteModel extends Observable{
     public Records<String, Job> getJobRecords() {
         return jobRecords;
     }
-   
-    
 }
-
-//public class CrewRecords extends Records<String, Crew> {
-//        
-//        public CrewRecords() {
-//            super();
-//        }
-//        
-//        public void getCrew(String ID) {
-//            super.getValue(ID);
-//        }
-//    }

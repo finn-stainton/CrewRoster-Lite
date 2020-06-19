@@ -3,86 +3,90 @@
  */
 package io.finnstainton.crewrosterlite.panels;
 
-import io.finnstainton.crewrosterlite.model.Event;
+import io.finnstainton.crewrosterlite.CrewRosterLiteController;
+import io.finnstainton.crewrosterlite.model.Specialties;
 import java.awt.BorderLayout;
-import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Label;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
 /**
  *
  * @author finnstainton
  */
-public class EventForm extends JFrame implements ActionListener{
-    final static int maxGap = 20;
+public class EventForm extends JFrame {
+    private final static int maxGap = 20;
+    private JTextField date, startTime, finishTime, location;
+    private JComboBox parentJob, eventType;
+    private JButton doneButton = new JButton("Done");
+    private JButton cancelButton = new JButton("Cancel");
+    private String[] jobSummaries = new String[0];
+    private String[] eventTypes = Specialties.getValues();
     
-    private Event newEvent, oldEvent;
-    
-    public EventForm(String name, Event event) {
-        super(name);
-        try{
-            this.newEvent = event;
-            this.oldEvent = event;
-        } catch(NullPointerException nullPointer) {
-//            this.newEvent = 
+    public EventForm() {
+        super("Add Event");
+        
+        if(jobSummaries.length > 0) {
+            // Input Panel
+            JPanel inputPanel = new JPanel(new GridLayout(2,6));
+            inputPanel.add(new Label("Job:"));
+            parentJob = new JComboBox(jobSummaries);
+            parentJob.setEditable(true);
+            inputPanel.add(parentJob);
+            inputPanel.add(new Label("Date:"));
+            date = new JTextField();
+            inputPanel.add(date);
+            inputPanel.add(new Label("Start Time:"));
+            startTime = new JTextField();
+            inputPanel.add(startTime);
+            inputPanel.add(new Label("Finish Date:"));
+            finishTime = new JTextField();
+            inputPanel.add(finishTime);
+            inputPanel.add(new Label("Location:"));
+            location = new JTextField();
+            inputPanel.add(location);
+            inputPanel.add(new Label("Type:"));
+            eventType = new JComboBox(eventTypes);
+            eventType.setEditable(true);
+            eventType.setSelectedItem(eventTypes[0]);
+            inputPanel.add(eventType);
+
+            // Button Panel
+            JPanel buttonPanel = new JPanel(new GridLayout(0,2));
+            buttonPanel.add(doneButton);
+            buttonPanel.add(cancelButton);
+
+            this.add(inputPanel, BorderLayout.NORTH);
+            this.add(new JSeparator(), BorderLayout.CENTER);
+            this.add(buttonPanel, BorderLayout.SOUTH);
+
+            this.setAlwaysOnTop (true);
+            this.setPreferredSize(new Dimension(300, 300));
+            this.setResizable(false);
+        } else {
+            Object[] options = {"OK"};
+            JOptionPane.showOptionDialog(this,
+                "Ohh nooo. Something when wrong.", 
+                "Error", JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE, 
+                null, options, null);
         }
-        setSize(200, 250);
-        setResizable(false);
     }
     
-    public void addComponents(Container pane) {
-        JPanel buttonPanel = new JPanel(new GridLayout(0,2));
-        JPanel textPanel = new JPanel(new GridLayout(2,3));
-        
-        
-        buttonPanel.add(new JButton("Done"));
-        buttonPanel.add(new JButton("Cancel"));
-        
-        
-        textPanel.add(new Label("Job:"));
-        
-        String[] patternExamples = {
-            "dd MMMMM yyyy",
-             "dd.MM.yy",
-             "MM/dd/yy",
-             "yyyy.MM.dd G 'at' hh:mm:ss z",
-             "EEE, MMM d, ''yy",
-            "h:mm a",
-             "H:mm:ss:SSS",
-            "K:mm a,z",
-            "yyyy.MMMMM.dd GGG hh:mm aaa"
-        };
-
-        JComboBox patternList = new JComboBox(patternExamples);
-        patternList.setEditable(true);
-        patternList.addActionListener(this);
-        
-        textPanel.add(new Label("Event Start Date:"));
-//        JDatePicker picker = new JDatePicker();
-//        picker.setDate(Calendar.getInstance().getTime());
-//        picker.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
-//        textPanel.add(new JTextField());
-        
-        textPanel.add(patternList);
-        
-        pane.add(textPanel, BorderLayout.NORTH);
-        pane.add(new JSeparator(), BorderLayout.CENTER);
-        pane.add(buttonPanel, BorderLayout.SOUTH);
+    public void updateJobSummaries(String[] jobSummaries) {
+        this.jobSummaries = jobSummaries;
     }
     
-    private void doneListener() {
-        
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void addController(CrewRosterLiteController controller) {
+        doneButton.addActionListener(e -> controller.EventFormListener());
+        cancelButton.addActionListener(controller);
+        eventType.addActionListener(controller);
+        parentJob.addActionListener(controller);
     }
 }
 

@@ -21,11 +21,11 @@ public class Person {
      * @param firstName String firstname of person
      * @param lastName String lastname of person
      */
-    public Person(String ID, String firstName, String lastName){
+    public Person(String ID, String firstName, String lastName, String contact){
         this.ID = ID;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.contact = "No Contact Details";
+        this.contact = contact;
     }
 
     public String getID() {

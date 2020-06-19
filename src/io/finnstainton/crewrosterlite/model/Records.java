@@ -3,8 +3,6 @@
  */
 package io.finnstainton.crewrosterlite.model;
 
-import io.finnstainton.crewrosterlite.Database;
-import io.finnstainton.crewrosterlite.UpdateInfo;
 import java.util.LinkedHashMap;
 import java.util.Observable;
 
@@ -12,24 +10,21 @@ import java.util.Observable;
  *
  * @author finnstainton
  */
-public class Records<K, V> extends Observable{
-    private LinkedHashMap<K, V> map;
-    private final Database db;
-    private UpdateInfo uInfo;
+public class Records<String, V> extends Observable{
+    private LinkedHashMap<String, V> map;
     
     public Records() {
         this.map = new LinkedHashMap<>();
-        this.db = new Database();
     }
     
-    public V getValue(K key) {
+    public V getValue(String key) {
         if(key != null  && this.map != null){
              return this.map.get(key);
         }
         return null;
     }
     
-    public boolean addValue(K key, V value) {
+    public boolean addValue(String key, V value) {
         if(!this.map.containsKey(key)) {
              this.map.put(key, value);
              return true;
@@ -38,7 +33,7 @@ public class Records<K, V> extends Observable{
         }
     }
     
-    public V removeValue(K key) {
+    public V removeValue(String key) {
         if(key != null && this.map != null) {
             return this.map.remove(key);
         } else {
@@ -54,8 +49,16 @@ public class Records<K, V> extends Observable{
         }
     }
     
-    public K[] getKeyArray() {
-        return (K[])this.map.keySet().toArray();
+    
+    public Object[] getKeyArray() {
+        // Won't let me do this ???
+//        return this.map.keySet().toArray(new String[this.map.size()]);
+        // But this returns a Object[], even though key is String
+        return this.map.keySet().toArray();
+    }
+    
+    public boolean isEmpty() {
+        return this.map.isEmpty();
     }
     
     public void printValues(){

@@ -8,7 +8,7 @@ import java.time.LocalTime;
 import java.util.HashSet;
 
 /**
- * Crew is an extension of a person, but has specialties. 
+ * Crew is an extension of a person, with specialties and a login. 
  * @author finnstainton (17982742)
  */
 public class Crew extends Person{
@@ -23,8 +23,8 @@ public class Crew extends Person{
      * @param firstName String crew's first name
      * @param lastName String crew's last name
      */
-    public Crew(String ID, String firstName, String lastName) {
-        super(ID, firstName, lastName);
+    public Crew(String ID, String firstName, String lastName, String contact) {
+        super(ID, firstName, lastName, contact);
         this.specialties = new HashSet<>();
         this.specialties.add(Specialties.General);
         
