@@ -3,20 +3,24 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/Stainton%20Labs/_Internal%20Products/CrewRoster/CrewRoster-Lite/src/io/finnstainton/crewrosterlite/panels/job/EventDetailPanel.java</file>
             <file>file:/D:/Stainton%20Labs/_Internal%20Products/CrewRoster/CrewRoster-Lite/src/io/finnstainton/crewrosterlite/model/Records.java</file>
+            <file>file:/D:/Stainton%20Labs/_Internal%20Products/CrewRoster/CrewRoster-Lite/src/io/finnstainton/crewrosterlite/panels/job/JobListPanel.java</file>
             <file>file:/D:/Stainton%20Labs/_Internal%20Products/CrewRoster/CrewRoster-Lite/src/io/finnstainton/crewrosterlite/panels/ClientForm.java</file>
             <file>file:/D:/Stainton%20Labs/_Internal%20Products/CrewRoster/CrewRoster-Lite/src/io/finnstainton/crewrosterlite/Database.java</file>
             <file>file:/D:/Stainton%20Labs/_Internal%20Products/CrewRoster/CrewRoster-Lite/src/io/finnstainton/crewrosterlite/CrewRosterLiteController.java</file>
-            <file>file:/D:/Stainton%20Labs/_Internal%20Products/CrewRoster/CrewRoster-Lite/src/io/finnstainton/crewrosterlite/panels/JobDetailPanel.java</file>
+            <file>file:/D:/Stainton%20Labs/_Internal%20Products/CrewRoster/CrewRoster-Lite/src/io/finnstainton/crewrosterlite/panels/job/EventListPanel.java</file>
+            <file>file:/D:/Stainton%20Labs/_Internal%20Products/CrewRoster/CrewRoster-Lite/src/io/finnstainton/crewrosterlite/panels/job/JobPanel.java</file>
+            <file>file:/D:/Stainton%20Labs/_Internal%20Products/CrewRoster/CrewRoster-Lite/src/io/finnstainton/crewrosterlite/panels/job/JobDetailPanel.java</file>
             <file>file:/D:/Stainton%20Labs/_Internal%20Products/CrewRoster/CrewRoster-Lite/src/io/finnstainton/crewrosterlite/panels/NavbarPanel.java</file>
             <file>file:/D:/Stainton%20Labs/_Internal%20Products/CrewRoster/CrewRoster-Lite/src/io/finnstainton/crewrosterlite/panels/JobForm.java</file>
             <file>file:/D:/Stainton%20Labs/_Internal%20Products/CrewRoster/CrewRoster-Lite/src/io/finnstainton/crewrosterlite/model/Specialties.java</file>
             <file>file:/D:/Stainton%20Labs/_Internal%20Products/CrewRoster/CrewRoster-Lite/src/io/finnstainton/crewrosterlite/CrewRosterLiteView.java</file>
-            <file>file:/D:/Stainton%20Labs/_Internal%20Products/CrewRoster/CrewRoster-Lite/src/io/finnstainton/crewrosterlite/panels/JobPanel.java</file>
             <file>file:/D:/Stainton%20Labs/_Internal%20Products/CrewRoster/CrewRoster-Lite/src/io/finnstainton/crewrosterlite/CrewRosterLiteApp.java</file>
             <file>file:/D:/Stainton%20Labs/_Internal%20Products/CrewRoster/CrewRoster-Lite/src/io/finnstainton/crewrosterlite/panels/PersonPanel.java</file>
             <file>file:/D:/Stainton%20Labs/_Internal%20Products/CrewRoster/CrewRoster-Lite/src/io/finnstainton/crewrosterlite/model/CrewRosterLiteModel.java</file>
             <file>file:/D:/Stainton%20Labs/_Internal%20Products/CrewRoster/CrewRoster-Lite/src/io/finnstainton/crewrosterlite/panels/CrewForm.java</file>
+            <file>file:/D:/Stainton%20Labs/_Internal%20Products/CrewRoster/CrewRoster-Lite/src/io/finnstainton/crewrosterlite/panels/job/CrewListPanel.java</file>
             <file>file:/D:/Stainton%20Labs/_Internal%20Products/CrewRoster/CrewRoster-Lite/src/io/finnstainton/crewrosterlite/panels/EventForm.java</file>
         </group>
     </open-files>
