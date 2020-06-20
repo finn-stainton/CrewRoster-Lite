@@ -17,8 +17,8 @@ public class CrewRosterLiteModel extends Observable{
     private UpdateInfo uInfo;
     private String[] crewIDs, clientIDs, jobIDs;
     private final Records<Crew> crewRecords;
-    private final Records< Client> clientRecords;
-    private final Records< Job> jobRecords;
+    private final Records<Client> clientRecords;
+    private final Records<Job> jobRecords;
     
     /**
      * Constructor, Sets up a {@code CrewRosterLite}
@@ -53,29 +53,18 @@ public class CrewRosterLiteModel extends Observable{
     
     public void saveToDB() {
         // Crew
-        
         for(String crewID : crewRecords.getKeyArray()) {
             db.addCrew(crewRecords.getValue(crewID));
         }
         
         // Client
         for(String clientID : clientRecords.getKeyArray()) {
-            db.addClient(clientRecords.getValue(clientID));
-            
-            // Contact
-            
+            db.addClient(clientRecords.getValue(clientID));  
         }
         
         // Job
         for(String jobID : jobRecords.getKeyArray()) {
-            Job j = jobRecords.getValue(jobID);
-            db.addJob(j);
-            
-            // Event
-            Records<Event> eventRecords = j.getEventRecords();
-            for(String eventID : eventRecords.getKeyArray()) {
-                db.addEvent(eventRecords.getValue(eventID));
-            }
+            db.addJob(jobRecords.getValue(jobID));
         }
     }
 }

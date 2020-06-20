@@ -162,9 +162,7 @@ public class Database {
         }
         return success;
     }
-    
-    // Add Client contact
-    
+        
     // Add Job
     public boolean addJob(Job job) {
         boolean success = false;
@@ -180,7 +178,7 @@ public class Database {
     }
     
     // Add Event
-    public boolean addEvent(Event event) {
+    private boolean addEvent(Event event) {
         boolean success = false;
         try {
             // Add Client
@@ -215,6 +213,7 @@ public class Database {
                 this.loadCrewEvents(crew);
                 
                 crewRecords.addValue(crew.getID(), crew);
+                System.out.println("Loaded from DB: " + crew);
             }
         } catch (SQLException ex) {
             System.err.println("SQL Exception: " + ex.getMessage());
@@ -237,6 +236,7 @@ public class Database {
                 if(contact != null) {
                     Client client = new Client(rs.getString("ID"), rs.getString("TITLE"), contact);
                     clientRecords.addValue(client.getID(), client);
+                    System.out.println("Loaded from DB: " + client);
                 }
             }
         } catch (SQLException ex) {
@@ -254,6 +254,9 @@ public class Database {
                 
                 // Get All events
                 this.loadJobEvents(j);
+                
+                jobRecords.addValue(j.getID(), j);
+                System.out.println("Loaded from DB: " + j);
             }
         } catch (SQLException ex) {
             System.err.println("SQL Exception: " + ex.getMessage());

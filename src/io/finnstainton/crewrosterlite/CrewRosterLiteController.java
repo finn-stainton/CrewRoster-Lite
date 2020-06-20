@@ -13,13 +13,16 @@ import io.finnstainton.crewrosterlite.panels.EventForm;
 import io.finnstainton.crewrosterlite.panels.JobForm;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author finnstainton
  */
-public class CrewRosterLiteController implements ActionListener {
+public class CrewRosterLiteController implements ActionListener, WindowListener {
     private CrewRosterLiteModel model;
     private CrewRosterLiteView view;
     
@@ -37,9 +40,14 @@ public class CrewRosterLiteController implements ActionListener {
     }
     
     // Listeners
-    public void JobFormDoneListener() {
+    public void JobFormListener() {
         
         this.view.getJobForm().setVisible(false);
+    }
+    
+    public void EventFormListener() {
+        
+        this.view.getEventForm().setVisible(false);
     }
     
     public void ClientFormListener() {
@@ -49,10 +57,10 @@ public class CrewRosterLiteController implements ActionListener {
             String lastname = this.view.getClientForm().getPersonPanel().getLastName().getText();
             String contact = this.view.getClientForm().getPersonPanel().getContact().getText();
 
-            if(title == null || firstname == null || lastname == null || contact == null) {
+            if(title.equals("") || firstname.equals("") || lastname.equals("") || contact.equals("")) {
                 Object[] options = {"Ok"};
                 JOptionPane.showOptionDialog(this.view.getClientForm(),
-                    "Please fill out all text fields", 
+                    "Please fill all text fields", 
                     "Error", JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE, 
                      null, options, null);
             } else {
@@ -112,11 +120,7 @@ public class CrewRosterLiteController implements ActionListener {
                  null, options, null);
         }
     }
-
-    public void EventFormListener() {
         
-    }
-    
     @Override
     public void actionPerformed(ActionEvent e) {
         try{
@@ -184,5 +188,56 @@ public class CrewRosterLiteController implements ActionListener {
         } catch(NumberFormatException ex) {
             System.out.println(ex);
         }
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+       Object[] options = {"Save", "Don't Save", "Cancel"};
+        int result = JOptionPane.showOptionDialog(this.view, 
+            "Do you want to save your work?", "Exit?", 
+            JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, 
+            null, options, options[0]);
+                
+        switch (result) {
+            case JOptionPane.YES_OPTION:
+                this.view.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                break;
+            case JOptionPane.NO_OPTION:
+                this.view.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                break;
+            default:
+                this.view.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                break;
+        }
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
