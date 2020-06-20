@@ -203,63 +203,69 @@ public class Database {
     
     // Load Crew
     public void loadCrew(Records<Crew> crewRecords) {
-        try{
-            ResultSet rs = statement.executeQuery("SELECT * FROM Crew");
-            
-            while(rs.next()){
-                Crew crew = new Crew(rs.getString("ID"), rs.getString("FIRSTNAME"), rs.getString("LASTNAME"), rs.getString("CONTACT"));
-                
-                // Get All events
-                this.loadCrewEvents(crew);
-                
-                crewRecords.addValue(crew.getID(), crew);
-                System.out.println("Loaded from DB: " + crew);
+        if(checkTable("Crew")) {
+            try{
+                ResultSet rs = statement.executeQuery("SELECT * FROM Crew");
+
+                while(rs.next()){
+                    Crew crew = new Crew(rs.getString("ID"), rs.getString("FIRSTNAME"), rs.getString("LASTNAME"), rs.getString("CONTACT"));
+
+                    // Get All events
+                    this.loadCrewEvents(crew);
+
+                    crewRecords.addValue(crew.getID(), crew);
+                    System.out.println("Loaded from DB: " + crew);
+                }
+            } catch (SQLException ex) {
+                System.err.println("SQL Exception: " + ex.getMessage());
             }
-        } catch (SQLException ex) {
-            System.err.println("SQL Exception: " + ex.getMessage());
         }
     }
     
     // Load Clients
     public void loadClients(Records<Client> clientRecords) {
-        try{
-            ResultSet rs = statement.executeQuery("SELECT * FROM Clients");
-            
-            while(rs.next()){
-                Person contact = null;
-                try{
-                    ResultSet result = statement.executeQuery("SELECT * FROM ClientContacts WHERE CLIENTID = '" + rs.getString("ID") + "'");
-                    contact = new Person(result.getString("ID"), result.getString("FIRSTNAME"), result.getString("LASTNAME"), result.getString("CONTACT"));
-                } catch (SQLException ex) {
-                    System.err.println("SQL Exception: " + ex.getMessage());
-                } 
-                if(contact != null) {
-                    Client client = new Client(rs.getString("ID"), rs.getString("TITLE"), contact);
-                    clientRecords.addValue(client.getID(), client);
-                    System.out.println("Loaded from DB: " + client);
+        if(checkTable("Clients")) {
+            try{
+                ResultSet rs = statement.executeQuery("SELECT * FROM Clients");
+
+                while(rs.next()){
+                    Person contact = null;
+                    try{
+                        ResultSet result = statement.executeQuery("SELECT * FROM ClientContacts WHERE CLIENTID = '" + rs.getString("ID") + "'");
+                        contact = new Person(result.getString("ID"), result.getString("FIRSTNAME"), result.getString("LASTNAME"), result.getString("CONTACT"));
+                    } catch (SQLException ex) {
+                        System.err.println("SQL Exception: " + ex.getMessage());
+                    } 
+                    if(contact != null) {
+                        Client client = new Client(rs.getString("ID"), rs.getString("TITLE"), contact);
+                        clientRecords.addValue(client.getID(), client);
+                        System.out.println("Loaded from DB: " + client);
+                    }
                 }
+            } catch (SQLException ex) {
+                System.err.println("SQL Exception: " + ex.getMessage());
             }
-        } catch (SQLException ex) {
-            System.err.println("SQL Exception: " + ex.getMessage());
         }
     }
     
     // Get all Jobs
     public void loadJobs(Records<Job> jobRecords) {
-        try{
-            ResultSet rs = statement.executeQuery("SELECT * FROM Jobs");
-            
-            while(rs.next()){
-                Job j = new Job(rs.getString("ID"), rs.getString("CLIENTID"), rs.getString("TITLE"), rs.getString("VENUE"));
-                
-                // Get All events
-                this.loadJobEvents(j);
-                
-                jobRecords.addValue(j.getID(), j);
-                System.out.println("Loaded from DB: " + j);
+        if(checkTable("Jobs")) {
+            try{
+                ResultSet rs = statement.executeQuery("SELECT * FROM Jobs");
+
+                while(rs.next()){
+                    Job j = new Job(rs.getString("ID"), rs.getString("CLIENTID"), rs.getString("TITLE"), rs.getString("VENUE"));
+
+                    // Get All events
+                    this.loadJobEvents(j);
+
+                    jobRecords.addValue(j.getID(), j);
+                    System.out.println("Loaded from DB: " + j);
+                }
+            } catch (SQLException ex) {
+                System.err.println("SQL Exception: " + ex.getMessage());
             }
-        } catch (SQLException ex) {
-            System.err.println("SQL Exception: " + ex.getMessage());
         }
     }
     

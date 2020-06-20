@@ -7,7 +7,7 @@ import io.finnstainton.crewrosterlite.panels.ClientForm;
 import io.finnstainton.crewrosterlite.panels.CrewForm;
 import io.finnstainton.crewrosterlite.panels.EventForm;
 import io.finnstainton.crewrosterlite.panels.JobForm;
-import io.finnstainton.crewrosterlite.panels.JobPanel;
+import io.finnstainton.crewrosterlite.panels.job.JobPanel;
 import io.finnstainton.crewrosterlite.panels.NavbarPanel;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -48,8 +48,6 @@ public class CrewRosterLiteView extends JFrame implements Observer {
         this.navbar = new NavbarPanel();
         this.setJMenuBar(this.navbar);
         
-       
-        
         this.setSize(1000, 700);
         this.setResizable(false);
         
@@ -63,9 +61,10 @@ public class CrewRosterLiteView extends JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        UpdateInfo update = (UpdateInfo) arg;   
+        System.out.println("View Update:" + o + " " + arg);
     }
 
+    // Get Components 
     public JobForm getJobForm() {
         return jobForm;
     }
@@ -80,6 +79,10 @@ public class CrewRosterLiteView extends JFrame implements Observer {
 
     public CrewForm getCrewForm() {
         return crewForm;
+    }
+
+    public JobPanel getJobPanel() {
+        return jobPanel;
     }
     
 }

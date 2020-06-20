@@ -57,7 +57,7 @@ public class ClientForm extends JFrame {
     }
         
     public void addController(CrewRosterLiteController controller) {
-        doneButton.addActionListener(e -> controller.ClientFormListener());
+        doneButton.addActionListener(e -> controller.clientFormListener());
         cancelButton.addActionListener(controller);
     }
 }

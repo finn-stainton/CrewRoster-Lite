@@ -26,8 +26,10 @@ public class Records<V> extends Observable{
     
     public boolean addValue(String key, V value) {
         if(!this.map.containsKey(key)) {
-             this.map.put(key, value);
-             return true;
+            this.map.put(key, value);
+            setChanged();
+            notifyObservers(this);
+            return true;
         } else {
             return false;
         }
@@ -43,6 +45,8 @@ public class Records<V> extends Observable{
     
     public V removeValue(String key) {
         if(key != null && this.map != null) {
+            setChanged();
+            notifyObservers(this);
             return this.map.remove(key);
         } else { 
            return null;

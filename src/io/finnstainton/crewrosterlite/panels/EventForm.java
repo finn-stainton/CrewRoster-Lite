@@ -22,8 +22,9 @@ import javax.swing.JTextField;
  */
 public class EventForm extends JFrame {
     private final static int maxGap = 20;
-    private JTextField date, startTime, finishTime, location;
-    private JComboBox parentJob, eventType;
+    private JTextField dateField, startTimeField, finishTimeField, locationField;
+    private JComboBox parentJob;
+    private JComboBox eventType = new JComboBox();
     private JButton doneButton = new JButton("Done");
     private JButton cancelButton = new JButton("Cancel");
     private String[] jobSummaries = new String[0];
@@ -40,17 +41,17 @@ public class EventForm extends JFrame {
             parentJob.setEditable(true);
             inputPanel.add(parentJob);
             inputPanel.add(new Label("Date:"));
-            date = new JTextField();
-            inputPanel.add(date);
+            dateField = new JTextField();
+            inputPanel.add(dateField);
             inputPanel.add(new Label("Start Time:"));
-            startTime = new JTextField();
-            inputPanel.add(startTime);
+            startTimeField = new JTextField();
+            inputPanel.add(startTimeField);
             inputPanel.add(new Label("Finish Date:"));
-            finishTime = new JTextField();
-            inputPanel.add(finishTime);
+            finishTimeField = new JTextField();
+            inputPanel.add(finishTimeField);
             inputPanel.add(new Label("Location:"));
-            location = new JTextField();
-            inputPanel.add(location);
+            locationField = new JTextField();
+            inputPanel.add(locationField);
             inputPanel.add(new Label("Type:"));
             eventType = new JComboBox(eventTypes);
             eventType.setEditable(true);
@@ -61,6 +62,7 @@ public class EventForm extends JFrame {
             JPanel buttonPanel = new JPanel(new GridLayout(0,2));
             buttonPanel.add(doneButton);
             buttonPanel.add(cancelButton);
+            cancelButton.setActionCommand("Close Event Form");
 
             this.add(inputPanel, BorderLayout.NORTH);
             this.add(new JSeparator(), BorderLayout.CENTER);
@@ -69,13 +71,7 @@ public class EventForm extends JFrame {
             this.setAlwaysOnTop (true);
             this.setPreferredSize(new Dimension(300, 300));
             this.setResizable(false);
-        } else {
-            Object[] options = {"OK"};
-            JOptionPane.showOptionDialog(this,
-                "Ohh nooo. Something when wrong.", 
-                "Error", JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE, 
-                null, options, null);
-        }
+        } else {}
     }
     
     public void updateJobSummaries(String[] jobSummaries) {
@@ -83,10 +79,36 @@ public class EventForm extends JFrame {
     }
     
     public void addController(CrewRosterLiteController controller) {
-        doneButton.addActionListener(e -> controller.EventFormListener());
+        doneButton.addActionListener(e -> controller.eventFormListener());
         cancelButton.addActionListener(controller);
         eventType.addActionListener(controller);
         parentJob.addActionListener(controller);
     }
+
+    public JTextField getDateField() {
+        return dateField;
+    }
+
+    public JTextField getStartTimeField() {
+        return startTimeField;
+    }
+
+    public JTextField getFinishTimeField() {
+        return finishTimeField;
+    }
+
+    public JTextField getLocationField() {
+        return locationField;
+    }
+
+    public JComboBox getJobBox() {
+        return parentJob;
+    }
+
+    public JComboBox getTypeBox() {
+        return eventType;
+    }
+    
+    
 }
 

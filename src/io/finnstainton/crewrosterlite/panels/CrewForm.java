@@ -51,7 +51,7 @@ public class CrewForm extends JFrame {
     }
         
     public void addController(CrewRosterLiteController controller) {
-        doneButton.addActionListener(e -> controller.CrewFormListener());
+        doneButton.addActionListener(e -> controller.crewFormListener());
         cancelButton.addActionListener(controller);
     }
 }

@@ -24,6 +24,8 @@ public class Job {
         this.clientID = clientID;
         this.title = title;
         this.venue = venue;
+        
+        //this.eventRecords.addObserver();
     }
 
     /******************** Getter and Setters ********************/

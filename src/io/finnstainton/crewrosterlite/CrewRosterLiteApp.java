@@ -18,7 +18,12 @@ public class CrewRosterLiteApp {
         this.view = new CrewRosterLiteView();
         this.controller = new CrewRosterLiteController();
         
+        // Add Observers
         this.model.addObserver(this.view);
+        this.model.getClientRecords().addObserver(this.view.getJobForm());
+        this.model.getCrewRecords().addObserver(this.view);
+        this.model.getJobRecords().addObserver(this.view.getJobPanel());
+        
         this.controller.addModel(this.model);
         this.controller.addView(this.view);
         
