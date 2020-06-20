@@ -13,7 +13,7 @@ import java.util.HashSet;
  */
 public class Crew extends Person{
     private String username;
-    private Records<String, Event> events;
+    private Records<Event> events;
     private HashSet<Specialties> specialties;
     
     /**
@@ -34,6 +34,22 @@ public class Crew extends Person{
         }
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Records<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Records<Event> events) {
+        this.events = events;
+    }
+    
     public HashSet<Specialties> getSpecialties() {
         return specialties;
     }

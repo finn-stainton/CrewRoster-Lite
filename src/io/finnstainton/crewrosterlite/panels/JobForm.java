@@ -59,7 +59,7 @@ public class JobForm extends JFrame {
     
     public void addController(CrewRosterLiteController controller) {
         clientBox.addActionListener(controller);
-        doneButton.addActionListener(e -> controller.JobFormDoneListener());
+        doneButton.addActionListener(e -> controller.JobFormListener());
         cancelButton.addActionListener(controller);
     }
 }

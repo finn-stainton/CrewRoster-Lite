@@ -10,7 +10,7 @@ import java.util.Observable;
  *
  * @author finnstainton
  */
-public class Records<String, V> extends Observable{
+public class Records<V> extends Observable{
     private LinkedHashMap<String, V> map;
     
     public Records() {
@@ -33,11 +33,19 @@ public class Records<String, V> extends Observable{
         }
     }
     
+    public boolean containsKey(String key) {
+        return this.map.containsKey(key);
+    }
+    
+    public boolean containsValue(V value) {
+        return this.map.containsValue(value);
+    }
+    
     public V removeValue(String key) {
         if(key != null && this.map != null) {
             return this.map.remove(key);
-        } else {
-            return null;
+        } else { 
+           return null;
         }
     }
     
@@ -49,12 +57,8 @@ public class Records<String, V> extends Observable{
         }
     }
     
-    
-    public Object[] getKeyArray() {
-        // Won't let me do this ???
-//        return this.map.keySet().toArray(new String[this.map.size()]);
-        // But this returns a Object[], even though key is String
-        return this.map.keySet().toArray();
+    public String[] getKeyArray() {
+        return this.map.keySet().toArray(new String[this.map.size()]); 
     }
     
     public boolean isEmpty() {

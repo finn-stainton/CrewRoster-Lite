@@ -4,17 +4,16 @@
 package io.finnstainton.crewrosterlite;
 
 import io.finnstainton.crewrosterlite.panels.ClientForm;
+import io.finnstainton.crewrosterlite.panels.CrewForm;
+import io.finnstainton.crewrosterlite.panels.EventForm;
 import io.finnstainton.crewrosterlite.panels.JobForm;
 import io.finnstainton.crewrosterlite.panels.JobPanel;
 import io.finnstainton.crewrosterlite.panels.NavbarPanel;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.Observable;
 import java.util.Observer;  
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -27,7 +26,9 @@ public class CrewRosterLiteView extends JFrame implements Observer {
     private final NavbarPanel navbar;
     private JobPanel jobPanel = new JobPanel();
     private JobForm jobForm = new JobForm();
+    private EventForm eventForm = new EventForm();
     private ClientForm clientForm = new ClientForm();
+    private CrewForm crewForm = new CrewForm();
     
     
     public CrewRosterLiteView() {
@@ -47,28 +48,7 @@ public class CrewRosterLiteView extends JFrame implements Observer {
         this.navbar = new NavbarPanel();
         this.setJMenuBar(this.navbar);
         
-        // Window Close Listener
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                Object[] options = {"Save", "Don't Save", "Cancel"};
-                int result = JOptionPane.showOptionDialog(getParent(), 
-                        "Do you want to save your work?", "Exit?", 
-                        JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, 
-                        null, options, options[0]);
-                switch (result) {
-                    case JOptionPane.YES_OPTION:
-                        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        break;
-                    case JOptionPane.NO_OPTION:
-                        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        break;
-                    default:
-                        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-                        break;
-                }
-            }
-        });
+       
         
         this.setSize(1000, 700);
         this.setResizable(false);
@@ -78,6 +58,7 @@ public class CrewRosterLiteView extends JFrame implements Observer {
     public void addController(CrewRosterLiteController controller) {
         this.jobPanel.addController(controller);
         this.navbar.addController(controller);
+        this.addWindowListener(controller);
     }
 
     @Override
@@ -89,12 +70,17 @@ public class CrewRosterLiteView extends JFrame implements Observer {
         return jobForm;
     }
 
+    public EventForm getEventForm() {
+        return eventForm;
+    }
+    
     public ClientForm getClientForm() {
         return clientForm;
     }
-    
-    
-    
+
+    public CrewForm getCrewForm() {
+        return crewForm;
+    }
     
 }
 

@@ -22,7 +22,7 @@ public class Event {
     }
     
     private String ID;
-    private Job parentJob;
+    private String parentJobID;
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime finishTime;
@@ -35,14 +35,14 @@ public class Event {
      * Creates new Event object
      * Future update, events will be a part of a tree to make parentJob variable redundant 
      * @param ID String id of the event
-     * @param parent Job which is event is part of
+     * @param parentJobID String which is event is part of
      * @param date LocalDate of event
      * @param startTime LocalTime of event
      * @param finishTime LocalTime of Event
      * @param location String of where the event is happening
      * @param type EventType what type of event is it
      */
-    public Event(String ID, Job parent, LocalDate date, LocalTime startTime, 
+    public Event(String ID, String parentJobID, LocalDate date, LocalTime startTime, 
             LocalTime finishTime, String location, EventType type){
         
         //Check ID has prefix "EV"
@@ -78,7 +78,11 @@ public class Event {
     public String getID() {    
         return ID;
     }
-    
+
+    public String getParentJob() {
+        return parentJobID;
+    }
+       
     public LocalDate getDate() {
         return date;
     }

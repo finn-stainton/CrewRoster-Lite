@@ -16,9 +16,9 @@ public class CrewRosterLiteModel extends Observable{
     private Database db;// Do you want to get all records from db or access them one at a time (maybe just load all IDs)?
     private UpdateInfo uInfo;
     private String[] crewIDs, clientIDs, jobIDs;
-    private final Records<String, Crew> crewRecords;
-    private final Records<String, Client> clientRecords;
-    private final Records<String, Job> jobRecords;
+    private final Records<Crew> crewRecords;
+    private final Records<Client> clientRecords;
+    private final Records<Job> jobRecords;
     
     /**
      * Constructor, Sets up a {@code CrewRosterLite}
@@ -28,21 +28,43 @@ public class CrewRosterLiteModel extends Observable{
         this.crewRecords = new Records<>();
         this.clientRecords = new Records<>();
         this.jobRecords = new Records<>();
+        
+        // Try load from db
+        db.loadCrew(crewRecords);
+        db.loadClients(clientRecords);
+        db.loadJobs(jobRecords);
     }
 
     public Database getDb() {
         return db;
     }
 
-    public Records<String, Crew> getCrewRecords() {
+    public Records<Crew> getCrewRecords() {
         return crewRecords;
     }
     
-    public Records<String, Client> getClientRecords() {
+    public Records<Client> getClientRecords() {
         return clientRecords; 
     }
 
-    public Records<String, Job> getJobRecords() {
+    public Records<Job> getJobRecords() {
         return jobRecords;
+    }
+    
+    public void saveToDB() {
+        // Crew
+        for(String crewID : crewRecords.getKeyArray()) {
+            db.addCrew(crewRecords.getValue(crewID));
+        }
+        
+        // Client
+        for(String clientID : clientRecords.getKeyArray()) {
+            db.addClient(clientRecords.getValue(clientID));  
+        }
+        
+        // Job
+        for(String jobID : jobRecords.getKeyArray()) {
+            db.addJob(jobRecords.getValue(jobID));
+        }
     }
 }
