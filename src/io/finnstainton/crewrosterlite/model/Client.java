@@ -11,15 +11,16 @@ public class Client {
     private String ID;
     private String name;
     private Person contact;
+    private Records<Person> contacts;
     
-    public Client(String ID, String name, Person contact) {
+    public Client(String ID, String name) {
         if(ID.substring(0, 2).equals("CT")) {
             this.ID = ID;
         } else {
             this.ID = "CT" + ID;
         }
         this.name = name;
-        this.contact = contact;
+        this.contact = null;
     }
 
     public String getID() {
@@ -38,8 +39,13 @@ public class Client {
         return contact;
     }
     
+    public void setContact(Person contact) {
+        this.contact = contact;
+    }
+    
     @Override
     public String toString() {
-        return this.getName() + ", Contact Person: " + this.getContact().getFullName();
+        return this.getName();
+        // + ", Contact Person: " + ((this.getContact().getFullName() != null ) ? this.getContact().getFullName() : "No Contact Person")
     }
 }

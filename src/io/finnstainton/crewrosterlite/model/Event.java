@@ -18,7 +18,31 @@ public class Event {
      * Enum of types of events that can occur
      */
     public enum EventType {
-        General, Preperation, PackIn, Operation, PackOut;     
+        General("General"), Preperation("Preperation"), PackIn("PackIn"), Operation("Operation"), PackOut("PackOut");
+        private final String text;
+
+        /**
+         * @param text
+         */
+        private EventType(final String text) {
+            this.text = text;
+        }
+
+        public static String[] getValues() {
+            EventType[] eventType = values();
+            String[] values = new String[eventType.length];
+
+            for (int i = 0; i < eventType.length; i++) {
+                values[i] = eventType[i].name();
+            }
+
+            return values;
+        }
+
+        @Override
+        public String toString() {
+            return text;
+        }                                                                                                                                               
     }
     
     private String ID;

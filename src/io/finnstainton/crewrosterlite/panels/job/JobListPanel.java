@@ -4,8 +4,12 @@
 package io.finnstainton.crewrosterlite.panels.job;
 
 import io.finnstainton.crewrosterlite.CrewRosterLiteController;
+import io.finnstainton.crewrosterlite.model.Job;
+import io.finnstainton.crewrosterlite.model.Records;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.BorderFactory;
@@ -14,10 +18,9 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
 
 /**
- *
+ * Displays all Job currently store in program model jobRecords
  * @author finnstainton (17982742)
  */
 public class JobListPanel extends JPanel implements Observer{
@@ -30,9 +33,6 @@ public class JobListPanel extends JPanel implements Observer{
         this.setBackground(Color.WHITE);
         
         listModel = new DefaultListModel<>();
-        for(int c = 0; c < values.length; c++){
-            listModel.addElement(values[c]);
-        }
         list = new JList<>(listModel);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setLayoutOrientation(JList.VERTICAL);
@@ -56,10 +56,16 @@ public class JobListPanel extends JPanel implements Observer{
     @Override
     public void update(Observable o, Object arg) {
         try{
-            if(arg == null) {
-                this.values = new String[0];
-            }
-            this.values = (String[]) arg;
+            Records<Job> records = (Records<Job>) arg;
+            this.remove(scrollPane);
+            this.invalidate();
+            this.listModel.removeAllElements();
+            this.listModel.addAll(new ArrayList<String>(Arrays.asList(records.getKeyArray())));
+            this.scrollPane = new JScrollPane(list);
+            this.scrollPane.setPreferredSize(new Dimension(192, 450));
+            this.add(scrollPane);
+            this.revalidate();
+            this.repaint();
         } catch(ClassCastException c) {
             
         }

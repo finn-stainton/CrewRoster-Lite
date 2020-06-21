@@ -77,9 +77,11 @@ public class JobPanel extends JPanel implements Observer{
     
     @Override
     public void update(Observable o, Object arg) {
-        Records<Job> records = (Records<Job>) arg;
+        //this.jobListPanel.update(o, arg);
+        //Records<Job> records = (Records<Job>) arg;
         
-        this.jobListPanel.updateJobIDs(records.getKeyArray());
+        //this.jobListPanel.updateJobIDs(records.getKeyArray());
+        //this.eventListPanel.update(null, arg);
     }
     
 } 

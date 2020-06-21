@@ -4,15 +4,24 @@
 package io.finnstainton.crewrosterlite.panels;
 
 import io.finnstainton.crewrosterlite.CrewRosterLiteController;
+import io.finnstainton.crewrosterlite.model.Event;
+import io.finnstainton.crewrosterlite.model.Job;
+import io.finnstainton.crewrosterlite.model.Records;
 import io.finnstainton.crewrosterlite.model.Specialties;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Label;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Observable;
+import java.util.Observer;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
@@ -20,40 +29,40 @@ import javax.swing.JTextField;
  *
  * @author finnstainton
  */
-public class EventForm extends JFrame {
+public class EventForm extends JFrame implements Observer{
     private final static int maxGap = 20;
     private JTextField dateField, startTimeField, finishTimeField, locationField;
-    private JComboBox parentJob;
-    private JComboBox eventType = new JComboBox();
+    private JComboBox parentJob, eventType;
+    private DefaultComboBoxModel<String> parentJobBoxModel = new DefaultComboBoxModel<>();
+    private DefaultComboBoxModel<String> eventTypeBoxModel = new DefaultComboBoxModel<>();
     private JButton doneButton = new JButton("Done");
     private JButton cancelButton = new JButton("Cancel");
-    private String[] jobSummaries = new String[0];
     private String[] eventTypes = Specialties.getValues();
     
     public EventForm() {
         super("Add Event");
         
-        if(jobSummaries.length > 0) {
             // Input Panel
-            JPanel inputPanel = new JPanel(new GridLayout(2,6));
+            JPanel inputPanel = new JPanel(new GridLayout(6,2));
             inputPanel.add(new Label("Job:"));
-            parentJob = new JComboBox(jobSummaries);
+            parentJob = new JComboBox(parentJobBoxModel);
             parentJob.setEditable(true);
             inputPanel.add(parentJob);
-            inputPanel.add(new Label("Date:"));
+            inputPanel.add(new Label("Date(yyyy/mm/dd):"));
             dateField = new JTextField();
             inputPanel.add(dateField);
-            inputPanel.add(new Label("Start Time:"));
+            inputPanel.add(new Label("Start Time (hh:mm):"));
             startTimeField = new JTextField();
             inputPanel.add(startTimeField);
-            inputPanel.add(new Label("Finish Date:"));
+            inputPanel.add(new Label("Finish Time (hh:mm):"));
             finishTimeField = new JTextField();
             inputPanel.add(finishTimeField);
             inputPanel.add(new Label("Location:"));
             locationField = new JTextField();
             inputPanel.add(locationField);
             inputPanel.add(new Label("Type:"));
-            eventType = new JComboBox(eventTypes);
+            eventTypeBoxModel.addAll(new ArrayList<String>(Arrays.asList(Event.EventType.getValues())));
+            eventType = new JComboBox(eventTypeBoxModel);
             eventType.setEditable(true);
             eventType.setSelectedItem(eventTypes[0]);
             inputPanel.add(eventType);
@@ -71,11 +80,6 @@ public class EventForm extends JFrame {
             this.setAlwaysOnTop (true);
             this.setPreferredSize(new Dimension(300, 300));
             this.setResizable(false);
-        } else {}
-    }
-    
-    public void updateJobSummaries(String[] jobSummaries) {
-        this.jobSummaries = jobSummaries;
     }
     
     public void addController(CrewRosterLiteController controller) {
@@ -108,7 +112,15 @@ public class EventForm extends JFrame {
     public JComboBox getTypeBox() {
         return eventType;
     }
-    
-    
+
+    @Override
+    public void update(Observable o, Object arg) {
+        Records<Job> records = (Records<Job>)arg;
+        if(records != null) {
+            parentJobBoxModel.addAll(new ArrayList<String>(Arrays.asList(records.getKeyArray())));
+            this.parentJob.revalidate();
+            this.parentJob.repaint();
+        }
+    }
 }
 

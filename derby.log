@@ -1,20 +1,13 @@
-Sat Jun 20 18:34:00 NZST 2020 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Sat Jun 20 18:34:04 NZST 2020:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0172-d06f-1322-ffffc8937fc9 
-on database directory D:\Stainton Labs\_Internal Products\CrewRoster\CrewRoster-Lite\CrewRosterDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@c387f44 
-Loaded from file:/C:/Users/finns/Downloads/db-derby-10.14.2.0-bin(4)/db-derby-10.14.2.0-bin/lib/derby.jar
+Sun Jun 21 20:56:54 NZST 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0172-d618-4697-00001f709b68 
+on database directory D:\Stainton Labs\_Internal Products\CrewRoster\CrewRoster-Lite\CrewRosterDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@65b54208 
+Loaded from file:/D:/Stainton%20Labs/_Internal%20Products/CrewRoster/CrewRoster-Lite/lib/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=14.0.1+7
-user.dir=C:\Users\finns\Downloads\db-derby-10.14.2.0-bin(4)\db-derby-10.14.2.0-bin
+user.dir=D:\Stainton Labs\_Internal Products\CrewRoster\CrewRoster-Lite
 os.name=Windows 10
 os.arch=amd64
 os.version=10.0
-derby.system.home=D:\Stainton Labs\_Internal Products\CrewRoster\CrewRoster-Lite
+derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
-----------------------------------------------------------------
-Sun Jun 21 00:26:19 NZST 2020: Shutting down Derby engine
-----------------------------------------------------------------
-Sun Jun 21 00:26:19 NZST 2020:
-Shutting down instance a816c00e-0172-d06f-1322-ffffc8937fc9 on database directory D:\Stainton Labs\_Internal Products\CrewRoster\CrewRoster-Lite\CrewRosterDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@c387f44 
-----------------------------------------------------------------

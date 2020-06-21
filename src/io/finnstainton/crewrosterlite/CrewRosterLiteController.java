@@ -33,7 +33,7 @@ import javax.swing.event.ListSelectionListener;
 public class CrewRosterLiteController implements ActionListener, WindowListener, ListSelectionListener {
     private CrewRosterLiteModel model;
     private CrewRosterLiteView view;
-    
+    private String currentJobID;
     // Controllers
     
     public CrewRosterLiteController() {
@@ -48,12 +48,16 @@ public class CrewRosterLiteController implements ActionListener, WindowListener,
     }
     
     // Listeners
+    /**
+     * Creates a new Job which the user presses done on the Job Form
+     */
     public void jobFormListener() {
         try {
             String title = this.view.getJobForm().getTitleField().getText();
             String clientID = (String)this.view.getJobForm().getClientBox().getSelectedItem();
             String venue = this.view.getJobForm().getVenueField().getText();
             
+            // Check if all fields are filled out
             if(title.equals("") || clientID.equals("")) {
                 Object[] options = {"Ok"};
                 JOptionPane.showOptionDialog(this.view.getJobForm(),
@@ -68,10 +72,18 @@ public class CrewRosterLiteController implements ActionListener, WindowListener,
                 this.view.getJobForm().setVisible(false);
             }
         } catch(ClassCastException e) {
-            
+            this.view.getJobForm().setVisible(false);
+            Object[] options = {"Ok"};
+            JOptionPane.showOptionDialog(this.view,
+                "An internal error occuried", 
+                "Event Error", JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE, 
+                 null, options, null);
         }
     }
     
+    /**
+     * Creates a new Event which the user presses done on the Event Form
+     */
     public void eventFormListener() {
         try {
             String jobID = (String)this.view.getEventForm().getJobBox().getSelectedItem();
@@ -85,6 +97,7 @@ public class CrewRosterLiteController implements ActionListener, WindowListener,
                 String location = this.view.getEventForm().getLocationField().getText();
                 String stype = (String)this.view.getEventForm().getTypeBox().getSelectedItem();
                 
+                // Check if all fields are filled out
                 if(sDate != "" || ssTime != "" || sfTime != "" || location != "" || stype != "") {
                     try{
                         date = LocalDate.parse(sDate);
@@ -104,15 +117,41 @@ public class CrewRosterLiteController implements ActionListener, WindowListener,
                             "Date or Time Error", JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE, 
                             null, options, null);
                     } catch(IllegalArgumentException enumError) {
-                        
+                        this.view.getEventForm().setVisible(false);
+                        Object[] options = {"Ok"};
+                        JOptionPane.showOptionDialog(this.view,
+                            "An internal error occuried", "Event Error", 
+                            JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE, 
+                            null, options, null);
                     }
+                } else {
+                    Object[] options = {"Ok"};
+                    JOptionPane.showOptionDialog(this.view.getClientForm(),
+                        "Please fill out all text fields", "Crew Error", 
+                        JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE, 
+                        null, options, null);
                 }
+            } else {
+                this.view.getEventForm().setVisible(false);
+                Object[] options = {"Ok"};
+                JOptionPane.showOptionDialog(this.view.getClientForm(),
+                    "Couldn't find parent Job", "Event Error",JOptionPane.OK_OPTION,
+                    JOptionPane.ERROR_MESSAGE, 
+                    null, options, null);
             }
         } catch(ClassCastException e) {
-            
+            this.view.getEventForm().setVisible(false);
+            Object[] options = {"Ok"};
+            JOptionPane.showOptionDialog(this.view,
+                "An internal error occuried", 
+                "Event Error", JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE, 
+                 null, options, null);
         }
     }
     
+    /**
+     * Creates a new Client which the user presses done on the Client Form
+     */
     public void clientFormListener() {
         try{
             String title = this.view.getClientForm().getTitleField().getText();
@@ -120,20 +159,22 @@ public class CrewRosterLiteController implements ActionListener, WindowListener,
             String lastname = this.view.getClientForm().getPersonPanel().getLastName().getText();
             String contact = this.view.getClientForm().getPersonPanel().getContact().getText();
 
+            // Check if all fields are filled out
             if(title.equals("") || firstname.equals("") || lastname.equals("") || contact.equals("")) {
-                
+                Object[] options = {"Ok"};
+                JOptionPane.showOptionDialog(this.view.getClientForm(),
+                    "Please fill out all text fields", 
+                    "Crew Error", JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE, 
+                     null, options, null);
             } else {
                 String personID = "CP" + String.format("%04d", (this.model.getClientRecords().getNumberValues() + 1));
                 String clientID = "CT" + String.format("%04d", (this.model.getClientRecords().getNumberValues() + 1));
 
                 Person person = new Person(personID, firstname, lastname, contact);
-                Client client = new Client(clientID, title, person);
+                Client client = new Client(clientID, title);
+                client.setContact(person);
                 this.model.getClientRecords().addValue(client.getID(), client);
                 System.out.println(client.getID() + ": " + client);
-                
-                //Update DB
-                //this.model.getDb().addClient(client);
-
                 this.view.getClientForm().setVisible(false);
             }
         } catch(NullPointerException e) {
@@ -146,13 +187,17 @@ public class CrewRosterLiteController implements ActionListener, WindowListener,
         }
     }
     
+    /**
+     * Creates a new Crew which the user presses done on the Crew Form
+     */
     public void crewFormListener() {
         try{
             String firstname = this.view.getClientForm().getPersonPanel().getFirstName().getText();
             String lastname = this.view.getClientForm().getPersonPanel().getLastName().getText();
             String contact = this.view.getClientForm().getPersonPanel().getContact().getText();
 
-            if(firstname == null || lastname == null || contact == null) {
+            // Check if all fields are filled out
+            if(firstname == "" || lastname == "" || contact == "") {
                 Object[] options = {"Ok"};
                 JOptionPane.showOptionDialog(this.view.getClientForm(),
                     "Please fill out all text fields", 
@@ -164,10 +209,6 @@ public class CrewRosterLiteController implements ActionListener, WindowListener,
                 Crew crew = new Crew(crewID, firstname, lastname, contact);
                 this.model.getCrewRecords().addValue(crew.getID(), crew);
                 System.out.println(crew);
-                
-                //Update DB
-                this.model.getDb().addCrew(crew);
-
                 this.view.getClientForm().setVisible(false);
             }
         } catch(NullPointerException e) {
@@ -180,23 +221,35 @@ public class CrewRosterLiteController implements ActionListener, WindowListener,
         }
     }
     
+    //List (Job and Event) Event listener
     @Override
     public void valueChanged(ListSelectionEvent e) {
         JList<String> list = (JList)e.getSource();
+        // Job in JobListPanel selected
         if(list.getName().equals("JobList")) {
             if(list.getValueIsAdjusting()) {
                 if (list.getSelectedValue() != null) {
-                    String jobID = list.getSelectedValue();
-                    this.view.getJobPanel().getJobDetailPanel().update(null, this.model.getJobRecords().getValue(jobID));
+                    this.currentJobID = list.getSelectedValue();
+                    this.view.getJobPanel().getJobDetailPanel().update(null, this.model.getJobRecords().getValue(this.currentJobID));
+                    this.view.getJobPanel().getEventListPanel().update(null, this.model.getJobRecords().getValue(this.currentJobID));
                 } else {
                     this.view.getJobPanel().getJobDetailPanel().update(null, null);
+                    this.view.getJobPanel().getEventListPanel().update(null, null);
                 }
             }
         } else if(list.getName().equals("EventList")) {
-            
-        }
+            if(list.getValueIsAdjusting()) {
+                if (list.getSelectedValue() != null) {
+                    String eventID = list.getSelectedValue();
+                    this.view.getJobPanel().getEventDetailPanel().update(null, this.model.getJobRecords().getValue(currentJobID).getEventRecords().getValue(eventID));
+                } else {
+                    this.view.getJobPanel().getEventDetailPanel().update(null, null);
+                }
+            }
+        } 
     }
     
+    // Small Action Events
     @Override
     public void actionPerformed(ActionEvent e) {
         try{
@@ -220,7 +273,6 @@ public class CrewRosterLiteController implements ActionListener, WindowListener,
                         JobForm jobForm = this.view.getJobForm();
                         jobForm.revalidate();
                         jobForm.repaint();
-                        jobForm.setClientOptions((String[])this.model.getClientRecords().getKeyArray());
                         jobForm.addController(this);
                         jobForm.pack();
                         jobForm.setVisible(true);
@@ -237,7 +289,6 @@ public class CrewRosterLiteController implements ActionListener, WindowListener,
                         EventForm eventForm = new EventForm();
                         eventForm.revalidate();
                         eventForm.repaint();
-                        eventForm.updateJobSummaries((String[])this.model.getJobRecords().getKeyArray());
                         eventForm.addController(this);
                         eventForm.pack();
                         eventForm.setVisible(true);
@@ -267,6 +318,7 @@ public class CrewRosterLiteController implements ActionListener, WindowListener,
                     this.view.getClientForm().setVisible(false);
                     break;
                 case "Close Event Form":
+                    this.view.getEventForm().setVisible(false);
                     break;
                 
             }
@@ -291,6 +343,7 @@ public class CrewRosterLiteController implements ActionListener, WindowListener,
         switch (result) {
             case JOptionPane.YES_OPTION:
                 this.view.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                this.model.saveToDB();
                 break;
             case JOptionPane.NO_OPTION:
                 this.view.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -326,27 +379,3 @@ public class CrewRosterLiteController implements ActionListener, WindowListener,
         
     }
 }
-
-//@Override
-//    public void valueChanged(ListSelectionEvent e) {
-//        JList<String> list = (JList)e.getSource();
-//        if(list.getValueIsAdjusting()) {
-//            if (list.getSelectedValue() != null) {
-//                String nhi = list.getSelectedValue();
-//
-//                this.remove(patientPanel);
-//                this.invalidate();
-//                this.patientPanel = patientRecords.getPatient(nhi).getDisplayPanel();
-//                this.add(patientPanel);
-//                this.revalidate();
-//                this.repaint();
-//            } else {
-//                this.remove(patientPanel);
-//                this.invalidate();
-//                this.patientPanel = nilSelected();
-//                this.add(patientPanel);
-//                this.revalidate();
-//                this.repaint();
-//            }
-//        }
-//    }
