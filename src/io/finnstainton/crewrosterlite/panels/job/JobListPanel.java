@@ -27,7 +27,6 @@ public class JobListPanel extends JPanel implements Observer{
     private JScrollPane scrollPane;
     private JList<String> list;
     private DefaultListModel<String> listModel;
-    private String[] values = new String[0];
     
     public JobListPanel() {
         this.setBackground(Color.WHITE);
@@ -43,10 +42,6 @@ public class JobListPanel extends JPanel implements Observer{
         scrollPane.setPreferredSize(new Dimension(192, 450));
         this.add(scrollPane);
         this.scrollPane.setVisible(true);
-    }
-    
-    public void updateJobIDs(String[] jobIDs) {
-        this.values = jobIDs;
     }
     
     public void addController(CrewRosterLiteController controller) {

@@ -92,9 +92,18 @@ public class Event {
             this.location = location;
         }
         
-        this.type = type;
         this.crewIDs = new HashSet<>();
         this.specialtiesNeeded = new HashSet<>();
+    }
+    
+    public Event(String ID, String parentJobID, LocalDate date, LocalTime startTime, 
+            LocalTime finishTime, String location, String stringType){
+        this(ID, parentJobID, date, startTime, finishTime, location, EventType.General);
+        
+        try {
+            this.type = Event.EventType.valueOf(stringType);
+        } catch(Exception e){}
+        
     }
     
     /********************** Getter and Setters ********************/  

@@ -32,6 +32,8 @@ public class Crew extends Person{
         if(!ID.substring(0, 2).equals("CR")) {
             this.setID("CR" + ID);
         }
+        
+        this.username = lastName.toLowerCase() + firstName.toLowerCase().substring(0, 1);
     }
 
     public String getUsername() {

@@ -9,33 +9,36 @@ import io.finnstainton.crewrosterlite.model.CrewRosterLiteModel;
  * @author finnstainton (17982742)
  */
 public class CrewRosterLiteApp {
-    private final CrewRosterLiteModel model;
-    private final CrewRosterLiteView view;
-    private final CrewRosterLiteController controller;
+    private static CrewRosterLiteModel model;
+    private static CrewRosterLiteView view;
+    private static CrewRosterLiteController controller;
     
     public CrewRosterLiteApp() {
-        this.model = new CrewRosterLiteModel();
-        this.view = new CrewRosterLiteView();
-        this.controller = new CrewRosterLiteController();
+        model = new CrewRosterLiteModel();
+        view = new CrewRosterLiteView();
+        controller = new CrewRosterLiteController();
         
         // Add Observers
-        this.model.addObserver(this.view);
-        this.model.getClientRecords().addObserver(this.view.getJobForm());
-        this.model.getCrewRecords().addObserver(this.view);
-        this.model.getJobRecords().addObserver(this.view.getJobPanel());
-        this.model.getJobRecords().addObserver(this.view.getJobPanel().getJobListPanel());
-        this.model.getJobRecords().addObserver(this.view.getJobPanel().getEventListPanel());
-        this.model.getJobRecords().addObserver(this.view.getEventForm());
+        model.addObserver(view);
+        model.getClientRecords().addObserver(view.getJobForm());
+        model.getCrewRecords().addObserver(view);
+        model.getJobRecords().addObserver(view.getJobPanel());
+        model.getJobRecords().addObserver(view.getJobPanel().getJobListPanel());
+        model.getJobRecords().addObserver(view.getJobPanel().getEventListPanel());
+        model.getJobRecords().addObserver(view.getEventForm());
         
-        this.controller.addModel(this.model);
-        this.controller.addView(this.view);
+        controller.addModel(model);
+        controller.addView(view);
         
-        this.view.addController(this.controller);
-        this.view.setVisible(true);
+       
+        
+        view.addController(controller);
+        view.setVisible(true);
     }
     
     public static void main(String[] args) {
         CrewRosterLiteApp app = new CrewRosterLiteApp();
+        app.model.loadFromDB();
     }
 }
 

@@ -9,7 +9,6 @@ import io.finnstainton.crewrosterlite.model.Event;
 import io.finnstainton.crewrosterlite.model.Job;
 import io.finnstainton.crewrosterlite.model.Person;
 import io.finnstainton.crewrosterlite.model.Records;
-import java.net.InetAddress;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -33,12 +32,6 @@ public class Database {
     private ResultSet crewRS, clientRS, contactRS, jobRS, eventRS;
     
     public Database() {
-//        try{
-//            DriverManager.registerDriver(new org.apache.derby.jdbc.EmbeddedDriver());
-//        } catch (SQLException ex) {
-//            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-
         if (!connect()) {
             Object[] options = {"OK"};
             JOptionPane.showOptionDialog(null, "DB Connection Fail", 
@@ -55,8 +48,6 @@ public class Database {
     public boolean connect() {
         boolean success = false;
         try {
-//            NetworkServerControl serverControl = new NetworkServerControl(InetAddress.getByName("CrewRosterDB"),1527);
-//            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
             conn = DriverManager.getConnection(dbURL, dbUsername, dbPassword);
             System.out.println("DATABASE: Connected");
             conn.setAutoCommit(false);
@@ -99,7 +90,7 @@ public class Database {
             // Events Table
             if (!checkTable("Events")) {
                 statement.executeUpdate("CREATE TABLE Events (ID VARCHAR(8), JOBID VARCHAR(8), EVENTDATE DATE, STARTTIME TIME, FINISHTIME TIME, LOCATION VARCHAR(255), TYPE VARCHAR(255), PRIMARY KEY(ID))");
-                statement.executeUpdate("INSERT INTO Events (ID, JOBID, DATE, STARTTIME, FINISHTIME, LOCATION, TYPE) VALUES ('EV0001', 'JB0001', '2020-06-20', '09:30:00', '23:59:59', 'FoH', 'PACKIN')");
+                statement.executeUpdate("INSERT INTO Events (ID, JOBID, EVENTDATE, STARTTIME, FINISHTIME, LOCATION, TYPE) VALUES ('EV000101', 'JB0001', '2020-06-20', '09:30:00', '23:59:59', 'FoH', 'PackIn')");
            
             }
             
@@ -145,10 +136,13 @@ public class Database {
     public boolean addCrew(Crew crew) {
         boolean success = false;
         try {
-            // Add Client
-            statement.executeUpdate("INSERT INTO Crew (ID, FIRSTNAME, LASTNAME, CONTACT) VALUES ('" + crew.getID() + "', '" + crew.getFirstName() + "', '" + crew.getLastName() + "', '" + crew.getContact() +"')");
-            
-            success = true;
+            ResultSet rs = statement.executeQuery("SELECT * FROM Crew WHERE ID = '" + crew.getID() + "'");
+          
+            if(rs.next()){
+                statement.executeUpdate("DELETE FROM Crew WHERE ID = '" + crew.getID() + "'");
+                statement.executeUpdate("INSERT INTO Crew (ID, FIRSTNAME, LASTNAME, CONTACT) VALUES ('" + crew.getID() + "', '" + crew.getFirstName() + "', '" + crew.getLastName() + "', '" + crew.getContact() +"')");
+                success = true;
+            }
         } catch (SQLException ex) {
             System.err.println("addCrew SQL Exception: " + ex.getMessage());
         }
@@ -159,13 +153,22 @@ public class Database {
     public boolean addClient(Client client) {
         boolean success = false;
         try {
-            // Add Client
-            statement.executeUpdate("INSERT INTO Clients (ID, TITLE) VALUES ('" + client.getID() + "', '" + client.getName() +"')");
-            
-            Person person = client.getContact();
-            //Add Contact Persons
-            statement.executeUpdate("INSERT INTO ClientContacts (ID, FIRSTNAME, LASTNAME, CONTACT, CLIENTID) VALUES ('" + person.getID() + "', '" + person.getFirstName() + "', '" + person.getLastName() + "', '" + person.getContact() + "', '" + client.getID());
-            success = true;
+            ResultSet rs = statement.executeQuery("SELECT * FROM Clients WHERE ID = '" + client.getID() + "'");
+          
+            if(rs.next()){
+                statement.executeUpdate("DELETE FROM Clients WHERE ID = '" + client.getID() + "'");
+                statement.executeUpdate("INSERT INTO Clients (ID, TITLE) VALUES ('" + client.getID() + "', '" + client.getName() +"')");
+                
+                Person person = client.getContact();
+                //Add Contact Persons
+                try {
+                    statement.executeUpdate("DELETE FROM ClientContacts WHERE ID = '" + person.getID() + "'");
+                    statement.executeUpdate("INSERT INTO ClientContacts (ID, FIRSTNAME, LASTNAME, CONTACT, CLIENTID) VALUES ('" + person.getID() + "', '" + person.getFirstName() + "', '" + person.getLastName() + "', '" + person.getContact() + "', '" + client.getID());
+                } catch (SQLException ex) {
+                    System.err.println("SQL Exception: " + ex.getMessage());
+                }
+                success = true;
+            }
         } catch (SQLException ex) {
             System.err.println("addClient SQL Exception: " + ex.getMessage());
         }
@@ -176,10 +179,13 @@ public class Database {
     public boolean addJob(Job job) {
         boolean success = false;
         try {
-            // Add Client
-            statement.executeUpdate("INSERT INTO Jobs (ID, TITLE, VENUE, CLIENTID) VALUES ('" + job.getID() + "', '" + job.getTitle() + "', '" + job.getVenue() + "', '" + job.getClientID() +"')");
-            
-            success = true;
+            ResultSet rs = statement.executeQuery("SELECT * FROM Jobs WHERE ID = '" + job.getID() + "'");
+          
+            if(rs.next()){
+                statement.executeUpdate("DELETE FROM Jobs WHERE ID = '" + job.getID() + "'");
+                statement.executeUpdate("INSERT INTO Jobs (ID, TITLE, VENUE, CLIENTID) VALUES ('" + job.getID() + "', '" + job.getTitle() + "', '" + job.getVenue() + "', '" + job.getClientID() +"')");
+                success = true;
+            }
         } catch (SQLException ex) {
             System.err.println("addJob SQL Exception: " + ex.getMessage());
         }
@@ -187,18 +193,24 @@ public class Database {
     }
     
     // Add Event
-    private boolean addEvent(Event event) {
+    public boolean addEvent(Event event) {
         boolean success = false;
         try {
-            // Add Client
-            statement.executeUpdate("INSERT INTO Events (ID, JOBID, DATE, STARTTIME, FINISHTIME, LOCATION, TYPE) VALUES ('" + event.getID() + "', '" + event.getParentJob() + "', '" + event.getDate().toString() + "', '" + event.getStartTime().toString() + "', '" + event.getFinishTime().toString() + "', '" + event.getLocation() + "', '" + event.getType().toString().toUpperCase() + "')");
+            ResultSet rs = statement.executeQuery("SELECT * FROM Events WHERE ID = '" + event.getID() + "'");
+          
+            if(rs.next()){
+                statement.executeUpdate("DELETE FROM Events WHERE ID = '" + event.getID() + "'");
+                statement.executeUpdate("INSERT INTO Events (ID, JOBID, EVENTDATE, STARTTIME, FINISHTIME, LOCATION, TYPE) VALUES ('" + event.getID() + "', '" + event.getParentJob() + "', '" + event.getDate().toString() + "', '" + event.getStartTime().toString() + "', '" + event.getFinishTime().toString() + "', '" + event.getLocation() + "', '" + event.getType().toString().toUpperCase() + "')");
             
-            String[] IDs = event.getCrewIDs();
-            for(int c = 0; c < IDs.length; c++) {
-                try {
-                    statement.executeUpdate("INSERT INTO ClientContacts (EVENTID, CREWID) VALUES ('" + event.getID() + "', '" + IDs[c] + "'");
-                } catch (SQLException ex) {
-                    System.err.println("SQL Exception: " + ex.getMessage());
+                // Add to crew events table 
+                String[] IDs = event.getCrewIDs();
+                for(int c = 0; c < IDs.length; c++) {
+                    try {
+                        statement.executeUpdate("DELETE FROM CrewEvents WHERE ID = '" + event.getID() + "'");
+                        statement.executeUpdate("INSERT INTO CrewEvents (EVENTID, CREWID) VALUES ('" + event.getID() + "', '" + IDs[c] + "'");
+                    } catch (SQLException ex) {
+                        System.err.println("SQL Exception: " + ex.getMessage());
+                    }
                 }
             }
             //Add Crew to Event
@@ -289,7 +301,8 @@ public class Database {
             ResultSet eventRS = statement.executeQuery("SELECT * FROM Events WHERE JOBID = '" + job.getID() + "'");
             
             while(eventRS.next()){
-                Event e = new Event(eventRS.getString("ID"), eventRS.getString("JOBID"), LocalDate.parse(eventRS.getString("DATE")), LocalTime.parse(eventRS.getString("STARTTIME")), LocalTime.parse(eventRS.getString("FINISHTIME")), eventRS.getString("LOCATION"), Event.EventType.valueOf(eventRS.getString("TYPE")));
+                
+                Event e = new Event(eventRS.getString("ID"), eventRS.getString("JOBID"), LocalDate.parse(eventRS.getString("EVENTDATE")), LocalTime.parse(eventRS.getString("STARTTIME")), LocalTime.parse(eventRS.getString("FINISHTIME")), eventRS.getString("LOCATION"), Event.EventType.valueOf(eventRS.getString("TYPE")));
                 job.getEventRecords().addValue(e.getID(), e);
             }
         } catch (SQLException ex) {

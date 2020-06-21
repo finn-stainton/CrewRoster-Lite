@@ -12,6 +12,7 @@ import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -24,20 +25,22 @@ public class JobDetailPanel extends JPanel implements Observer{
     private final JLabel venueLabel;
     
     public JobDetailPanel() {
-        this.setLayout(new BorderLayout());
+        // Panel style parameters
+        //this.setLayout(new BorderLayout());
         this.setBackground(Color.WHITE);
+        this.setBorder(new EmptyBorder(10, 10, 10, 10));
         
-        this.jobTitleLabel = new JLabel("Job Title");
+        this.jobTitleLabel = new JLabel("No Job Selected");
         this.jobTitleLabel.setFont(new Font("Open Sans", Font.PLAIN, 40));
-        this.clientLabel = new JLabel("Client");
+        this.clientLabel = new JLabel("");
         this.clientLabel.setFont(new Font("Open Sans", Font.BOLD, 20));
-        this.venueLabel = new JLabel("Venue");
+        this.venueLabel = new JLabel("");
         this.venueLabel.setFont(new Font("Open Sans", Font.BOLD, 20));
         
         // Add to main panel
-        this.add(this.jobTitleLabel, BorderLayout.NORTH);
-        this.add(this.clientLabel, BorderLayout.CENTER);
-        this.add(this.venueLabel, BorderLayout.SOUTH);
+        this.add(this.jobTitleLabel);
+        this.add(this.clientLabel);
+        this.add(this.venueLabel);
     }
     
     public void addController(CrewRosterLiteController controller) {
@@ -54,7 +57,7 @@ public class JobDetailPanel extends JPanel implements Observer{
             this.revalidate();
             this.repaint();
         } else {
-            this.jobTitleLabel.setText("");
+            this.jobTitleLabel.setText("No Job Selected");
             this.clientLabel.setText("");
             this.venueLabel.setText("");
             this.revalidate();

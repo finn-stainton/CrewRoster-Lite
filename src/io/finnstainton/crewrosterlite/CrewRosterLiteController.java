@@ -27,17 +27,15 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 /**
- *
+ * Controller
  * @author finnstainton
  */
 public class CrewRosterLiteController implements ActionListener, WindowListener, ListSelectionListener {
     private CrewRosterLiteModel model;
     private CrewRosterLiteView view;
     private String currentJobID;
-    // Controllers
     
-    public CrewRosterLiteController() {
-    }
+    public CrewRosterLiteController() {}
     
     public void addModel(CrewRosterLiteModel model) {
         this.model = model;
@@ -106,11 +104,11 @@ public class CrewRosterLiteController implements ActionListener, WindowListener,
                         type = Event.EventType.valueOf(stype);
                         
                         Job j = this.model.getJobRecords().getValue(jobID);
-                        String eventID = "EV" + String.format("%04d", (j.getEventRecords().getNumberValues()));
+                        String eventID = "EV" + j.getID() + String.format("%02d", (j.getEventRecords().getNumberValues()));
                         Event e = new Event(eventID, jobID, date, sTime, fTime, location, type);
                         j.getEventRecords().addValue(eventID, e);
                         this.view.getEventForm().setVisible(false);
-                    } catch(DateTimeParseException dateError) {
+                    } catch(DateTimeParseException dateError) { // Catch Date or time errors
                         Object[] options = {"Ok"};
                         JOptionPane.showOptionDialog(this.view, 
                             "Date or Time entered incorrectly. Date(yyyy-mm-dd), Time(hh:mm)", 
@@ -206,6 +204,7 @@ public class CrewRosterLiteController implements ActionListener, WindowListener,
             } else {
                 String crewID = "CR" + String.format("%04d", (this.model.getCrewRecords().getNumberValues() + 1));
 
+                // New Crew
                 Crew crew = new Crew(crewID, firstname, lastname, contact);
                 this.model.getCrewRecords().addValue(crew.getID(), crew);
                 System.out.println(crew);

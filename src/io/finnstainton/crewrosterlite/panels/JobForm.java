@@ -82,6 +82,8 @@ public class JobForm extends JFrame implements Observer{
         Records<Client> records = (Records<Client>) arg;
         if(records != null) {
             clientListModel.addAll(new ArrayList<String>(Arrays.asList(records.getKeyArray())));
+            clientBox.revalidate();
+            clientBox.repaint();
         }
     }
 

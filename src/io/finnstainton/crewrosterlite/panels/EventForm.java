@@ -118,8 +118,9 @@ public class EventForm extends JFrame implements Observer{
         Records<Job> records = (Records<Job>)arg;
         if(records != null) {
             parentJobBoxModel.addAll(new ArrayList<String>(Arrays.asList(records.getKeyArray())));
-            this.parentJob.revalidate();
-            this.parentJob.repaint();
+            parentJob.setModel(parentJobBoxModel);
+            parentJob.revalidate();
+            parentJob.repaint();
         }
     }
 }
