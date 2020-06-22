@@ -39,7 +39,7 @@ public class JobListPanel extends JPanel implements Observer{
         list.setBorder(BorderFactory.createTitledBorder("Jobs"));
         list.setName("JobList");
         scrollPane = new JScrollPane(list);
-        scrollPane.setPreferredSize(new Dimension(192, 450));
+        scrollPane.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()));
         this.add(scrollPane);
         this.scrollPane.setVisible(true);
     }
@@ -57,7 +57,7 @@ public class JobListPanel extends JPanel implements Observer{
             this.listModel.removeAllElements();
             this.listModel.addAll(new ArrayList<String>(Arrays.asList(records.getKeyArray())));
             this.scrollPane = new JScrollPane(list);
-            this.scrollPane.setPreferredSize(new Dimension(192, 450));
+            this.scrollPane.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()));
             this.add(scrollPane);
             this.revalidate();
             this.repaint();

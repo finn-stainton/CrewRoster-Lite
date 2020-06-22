@@ -44,22 +44,28 @@ public class EventForm extends JFrame implements Observer{
         
             // Input Panel
             JPanel inputPanel = new JPanel(new GridLayout(6,2));
+            
             inputPanel.add(new Label("Job:"));
             parentJob = new JComboBox(parentJobBoxModel);
             parentJob.setEditable(true);
             inputPanel.add(parentJob);
-            inputPanel.add(new Label("Date(yyyy/mm/dd):"));
+            
+            inputPanel.add(new Label("Date(yyyy-mm-dd):"));
             dateField = new JTextField();
             inputPanel.add(dateField);
+            
             inputPanel.add(new Label("Start Time (hh:mm):"));
             startTimeField = new JTextField();
             inputPanel.add(startTimeField);
+            
             inputPanel.add(new Label("Finish Time (hh:mm):"));
             finishTimeField = new JTextField();
             inputPanel.add(finishTimeField);
+            
             inputPanel.add(new Label("Location:"));
             locationField = new JTextField();
             inputPanel.add(locationField);
+            
             inputPanel.add(new Label("Type:"));
             eventTypeBoxModel.addAll(new ArrayList<String>(Arrays.asList(Event.EventType.getValues())));
             eventType = new JComboBox(eventTypeBoxModel);
@@ -118,7 +124,6 @@ public class EventForm extends JFrame implements Observer{
         Records<Job> records = (Records<Job>)arg;
         if(records != null) {
             parentJobBoxModel.addAll(new ArrayList<String>(Arrays.asList(records.getKeyArray())));
-            parentJob.setModel(parentJobBoxModel);
             parentJob.revalidate();
             parentJob.repaint();
         }

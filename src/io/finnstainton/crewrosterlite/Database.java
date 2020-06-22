@@ -34,10 +34,9 @@ public class Database {
     public Database() {
         if (!connect()) {
             Object[] options = {"OK"};
-            JOptionPane.showOptionDialog(null, "DB Connection Fail", 
-                    "Couldn't open a connection with the Database. There maybe multiple "
+            JOptionPane.showOptionDialog(null, "Couldn't open a connection with the Database. There maybe multiple "
                             + "\"CrewRoster Lite \" windows open. Make sure you only have one window open.", 
-                    JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE, null, options, null);
+                    "DB Connection Fail", JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE, null, options, null);
             System.exit(0);
         }
         
@@ -97,7 +96,6 @@ public class Database {
             // CrewEvents Table
             if (!checkTable("CrewEvents")) {
                 statement.executeUpdate("CREATE TABLE CrewEvents (EVENTID VARCHAR(8), CREWID VARCHAR(8) NOT NULL, PRIMARY KEY(EVENTID))");
-                statement.executeUpdate("ALTER TABLE CrewEvents ADD PRIMARY KEY (CREWID)");
                 statement.executeUpdate("INSERT INTO CrewEvents (EVENTID, CREWID) VALUES ('EV0001', 'CR0001')");
            
             }
@@ -161,11 +159,14 @@ public class Database {
                 
                 Person person = client.getContact();
                 //Add Contact Persons
-                try {
-                    statement.executeUpdate("DELETE FROM ClientContacts WHERE ID = '" + person.getID() + "'");
-                    statement.executeUpdate("INSERT INTO ClientContacts (ID, FIRSTNAME, LASTNAME, CONTACT, CLIENTID) VALUES ('" + person.getID() + "', '" + person.getFirstName() + "', '" + person.getLastName() + "', '" + person.getContact() + "', '" + client.getID());
-                } catch (SQLException ex) {
-                    System.err.println("SQL Exception: " + ex.getMessage());
+                if(person != null){
+                    try {
+                        statement.executeUpdate("DELETE FROM ClientContacts WHERE ID = '" + person.getID() + "'");
+                        statement.executeUpdate("INSERT INTO ClientContacts (ID, FIRSTNAME, LASTNAME, CONTACT, CLIENTID) VALUES ('" + person.getID() + "', '" + person.getFirstName() + "', '" + person.getLastName() + "', '" + person.getContact() + "', '" + client.getID());
+                    } catch (SQLException ex) {
+                        System.err.println("SQL Exception: " + ex.getMessage());
+                    } catch(Exception e){}
+                
                 }
                 success = true;
             }
@@ -200,7 +201,7 @@ public class Database {
           
             if(rs.next()){
                 statement.executeUpdate("DELETE FROM Events WHERE ID = '" + event.getID() + "'");
-                statement.executeUpdate("INSERT INTO Events (ID, JOBID, EVENTDATE, STARTTIME, FINISHTIME, LOCATION, TYPE) VALUES ('" + event.getID() + "', '" + event.getParentJob() + "', '" + event.getDate().toString() + "', '" + event.getStartTime().toString() + "', '" + event.getFinishTime().toString() + "', '" + event.getLocation() + "', '" + event.getType().toString().toUpperCase() + "')");
+                statement.executeUpdate("INSERT INTO Events (ID, JOBID, EVENTDATE, STARTTIME, FINISHTIME, LOCATION, TYPE) VALUES ('" + event.getID() + "', '" + event.getParentJob() + "', '" + event.getDate().toString() + "', '" + event.getStartTime().toString() + "', '" + event.getFinishTime().toString() + "', '" + event.getLocation() + "', '" + event.getType().toString() + "')");
             
                 // Add to crew events table 
                 String[] IDs = event.getCrewIDs();
@@ -218,7 +219,7 @@ public class Database {
             success = true;
         } catch (SQLException ex) {
             System.err.println("addEvent SQL Exception: " + ex.getMessage());
-        }
+        } catch (Exception e){}
         return success;
     }
     
@@ -258,18 +259,20 @@ public class Database {
     public void loadClientContacts(Records<Client> clientRecords) {
         if(checkTable("ClientContacts")) {
             for(String ID : clientRecords.getKeyArray()) {
-            Client client = clientRecords.getValue(ID);
-                try{
-                    contactRS = statement.executeQuery("SELECT * FROM ClientContacts WHERE CLIENTID = '" + clientRS.getString("ID") + "'");
+                Client client = clientRecords.getValue(ID);
+                if(client != null){
+                    try{
+                        contactRS = statement.executeQuery("SELECT * FROM ClientContacts WHERE CLIENTID = '" + ID + "'");
 
-                    while(contactRS.next()){
-                        Person contact = new Person(contactRS.getString("ID"), contactRS.getString("FIRSTNAME"), contactRS.getString("LASTNAME"), contactRS.getString("CONTACT"));
-                        client.setContact(contact);
-                    }
+                        if(contactRS.next()){
+                            Person contact = new Person(contactRS.getString("ID"), contactRS.getString("FIRSTNAME"), contactRS.getString("LASTNAME"), contactRS.getString("CONTACT"));
+                            client.setContact(contact);
+                        }
 
-                } catch (SQLException ex) {
-                     System.err.println("SQL Exception: " + ex.getMessage());
-                } 
+                    } catch (SQLException ex) {
+                         System.err.println("clientContact SQL Exception: " + ex.getMessage());
+                    } 
+                }
             }
         }
     }
@@ -282,10 +285,6 @@ public class Database {
 
                 while(jobRS.next()){
                     Job j = new Job(jobRS.getString("ID"), jobRS.getString("CLIENTID"), jobRS.getString("TITLE"), jobRS.getString("VENUE"));
-
-                    // Get All events
-                    this.loadJobEvents(j);
-
                     jobRecords.addValue(j.getID(), j);
                     System.out.println("Loaded from DB: " + j);
                 }

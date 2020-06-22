@@ -4,15 +4,12 @@
 package io.finnstainton.crewrosterlite.panels.job;
 
 import io.finnstainton.crewrosterlite.CrewRosterLiteController;
-import io.finnstainton.crewrosterlite.model.Job;
-import io.finnstainton.crewrosterlite.model.Records;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.event.ListSelectionEvent;
 
 /**
  *
@@ -22,27 +19,36 @@ public class JobPanel extends JPanel implements Observer{
     private final JobDetailPanel jobDetailPanel;
     private final JobListPanel jobListPanel;
     private final EventDetailPanel eventDetailPanel;
-    private final EventListPanel eventListPanel;
-    private String selectedJobID;
+    
 
     public JobPanel() {
         this.setLayout(new BorderLayout(10,10));
+        GridBagConstraints c = new GridBagConstraints();
+        
+        this.jobListPanel = new JobListPanel();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        //c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = 0;
+        this.jobListPanel.setPreferredSize(new Dimension(200, this.getHeight()));
+        this.add(this.jobListPanel, BorderLayout.LINE_START);
         
         this.jobDetailPanel = new JobDetailPanel();
-        this.jobDetailPanel.setPreferredSize(new Dimension(778, 110));
-        this.jobListPanel = new JobListPanel();
-        this.jobListPanel.setPreferredSize(new Dimension(192, 980));
+        c.fill = GridBagConstraints.HORIZONTAL;
+        //c.weightx = 0.5;
+        c.gridx = 1;
+        c.gridy = 0;
+        this.jobDetailPanel.setPreferredSize(new Dimension(400, this.getHeight()));
+        this.add(this.jobDetailPanel, BorderLayout.CENTER);
         
         this.eventDetailPanel = new EventDetailPanel();
-        this.eventDetailPanel.setPreferredSize(new Dimension(384, 420));
-        this.eventListPanel = new EventListPanel();
-        this.eventListPanel.setPreferredSize(new Dimension(384, 420));
+        c.fill = GridBagConstraints.HORIZONTAL;
+        //c.weightx = 0.5;
+        c.gridx = 2;
+        c.gridy = 0;
+        this.eventDetailPanel.setPreferredSize(new Dimension(400, this.getHeight()));
+        this.add(this.eventDetailPanel, BorderLayout.LINE_END);
         
-        // Add to main panel
-        this.add(this.jobDetailPanel, BorderLayout.NORTH);
-        this.add(this.jobListPanel, BorderLayout.WEST);
-        this.add(this.eventDetailPanel, BorderLayout.EAST);
-        this.add(this.eventListPanel, BorderLayout.CENTER);
     }
     
 //    @Override
@@ -56,7 +62,7 @@ public class JobPanel extends JPanel implements Observer{
         this.jobDetailPanel.addController(controller);
         this.jobListPanel.addController(controller);
         this.eventDetailPanel.addController(controller);
-        this.eventListPanel.addController(controller);
+        this.jobDetailPanel.getEventListPanel().addController(controller);
     }
 
     public JobDetailPanel getJobDetailPanel() {
@@ -69,10 +75,6 @@ public class JobPanel extends JPanel implements Observer{
 
     public EventDetailPanel getEventDetailPanel() {
         return eventDetailPanel;
-    }
-
-    public EventListPanel getEventListPanel() {
-        return eventListPanel;
     }
     
     @Override

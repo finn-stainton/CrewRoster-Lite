@@ -22,15 +22,14 @@ public class CrewRosterLiteApp {
         model.addObserver(view);
         model.getClientRecords().addObserver(view.getJobForm());
         model.getCrewRecords().addObserver(view);
+        model.getCrewRecords().addObserver(view.getCrewSltForm());
         model.getJobRecords().addObserver(view.getJobPanel());
-        model.getJobRecords().addObserver(view.getJobPanel().getJobListPanel());
-        model.getJobRecords().addObserver(view.getJobPanel().getEventListPanel());
         model.getJobRecords().addObserver(view.getEventForm());
+        model.getJobRecords().addObserver(view.getJobPanel().getJobListPanel());
+        model.getJobRecords().addObserver(view.getJobPanel().getJobDetailPanel().getEventListPanel());
         
         controller.addModel(model);
         controller.addView(view);
-        
-       
         
         view.addController(controller);
         view.setVisible(true);

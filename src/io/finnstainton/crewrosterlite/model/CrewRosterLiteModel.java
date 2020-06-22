@@ -6,6 +6,7 @@ package io.finnstainton.crewrosterlite.model;
 import io.finnstainton.crewrosterlite.Database;
 import java.util.Arrays;
 import java.util.Observable;
+import javax.swing.JOptionPane;
 
 /**
  * Model
@@ -29,18 +30,6 @@ public class CrewRosterLiteModel extends Observable{
         jobRecords = new Records<>();
     }
     
-    public void loadFromDB() {
-        // Try load from db
-        System.out.println("Loading from DB");
-        db.loadCrew(crewRecords);
-        db.loadClients(clientRecords);
-        db.loadJobs(jobRecords);
-        db.loadClientContacts(clientRecords);
-        for(String jobID : jobRecords.getKeyArray()){
-            db.loadJobEvents(jobRecords.getValue(jobID));
-        }
-    }
-
     public Database getDb() {
         return db;
     }
@@ -57,26 +46,42 @@ public class CrewRosterLiteModel extends Observable{
         return jobRecords;
     }
     
-    public void saveToDB() {
+    public void loadFromDB() {
+        // Try load from db
+        System.out.println("Loading from DB");
+        db.loadCrew(crewRecords);
+        db.loadClients(clientRecords);
+        db.loadJobs(jobRecords);
+        db.loadClientContacts(clientRecords);
+        for(String jobID : jobRecords.getKeyArray()){
+            db.loadJobEvents(jobRecords.getValue(jobID));
+        }
+    }
+    
+    public boolean saveToDB() {
+        boolean success = true;
+        
         // Crew
         for(String crewID : crewRecords.getKeyArray()) {
-            db.addCrew(crewRecords.getValue(crewID));
+            success = db.addCrew(crewRecords.getValue(crewID));
         }
         
         // Clients
         for(String clientID : clientRecords.getKeyArray()) {
-            db.addClient(clientRecords.getValue(clientID));  
+            success = db.addClient(clientRecords.getValue(clientID));  
         }
         
         // Jobs
         for(String jobID : jobRecords.getKeyArray()) {
-            db.addJob(jobRecords.getValue(jobID));
-           Records<Event> eventRecords = jobRecords.getValue(jobID).getEventRecords();
+            success = db.addJob(jobRecords.getValue(jobID));
+            Records<Event> eventRecords = jobRecords.getValue(jobID).getEventRecords();
             for(String eventID : eventRecords.getKeyArray()) {
-                db.addEvent(eventRecords.getValue(eventID));
+                if(eventRecords.getValue(eventID) != null) {
+                    success = db.addEvent(eventRecords.getValue(eventID));
+                }
             }
         }
         
-        
+        return success;
     }
 }

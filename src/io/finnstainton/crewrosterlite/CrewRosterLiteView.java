@@ -5,10 +5,12 @@ package io.finnstainton.crewrosterlite;
 
 import io.finnstainton.crewrosterlite.panels.ClientForm;
 import io.finnstainton.crewrosterlite.panels.CrewForm;
+import io.finnstainton.crewrosterlite.panels.CrewSelectionForm;
 import io.finnstainton.crewrosterlite.panels.EventForm;
 import io.finnstainton.crewrosterlite.panels.JobForm;
 import io.finnstainton.crewrosterlite.panels.job.JobPanel;
 import io.finnstainton.crewrosterlite.panels.NavbarPanel;
+import io.finnstainton.crewrosterlite.panels.RosterForm;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.util.Observable;
@@ -23,13 +25,16 @@ import javax.swing.UnsupportedLookAndFeelException;
  * @author finnstainton
  */
 public class CrewRosterLiteView extends JFrame implements Observer {
+    private static final int WIDTH = 1000;
+    private static final int HEIGHT = 700;
     private final NavbarPanel navbar;
     private JobPanel jobPanel = new JobPanel();
     private JobForm jobForm = new JobForm();
     private EventForm eventForm = new EventForm();
     private ClientForm clientForm = new ClientForm();
     private CrewForm crewForm = new CrewForm();
-    
+    private RosterForm rosterForm = new RosterForm();
+    private CrewSelectionForm crewSltForm = new CrewSelectionForm();
     
     public CrewRosterLiteView() {
         super("CrewRoster Lite");
@@ -41,14 +46,15 @@ public class CrewRosterLiteView extends JFrame implements Observer {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch(ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e){}
         
-        // Add Panels
-        this.add(jobPanel);
-        
         // Add Navbar
         this.navbar = new NavbarPanel();
         this.setJMenuBar(this.navbar);
         
-        this.setSize(1000, 700);
+        // Add Panels
+        this.jobPanel.setSize(WIDTH, HEIGHT-this.navbar.getHeight());
+        this.add(jobPanel);
+        
+        this.setSize(WIDTH, HEIGHT);
         this.setResizable(false);
         
     }
@@ -61,7 +67,7 @@ public class CrewRosterLiteView extends JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("View Update:" + o + " " + arg);
+       
     }
 
     // Get Components 
@@ -84,6 +90,16 @@ public class CrewRosterLiteView extends JFrame implements Observer {
     public JobPanel getJobPanel() {
         return jobPanel;
     }
+
+    public RosterForm getRosterForm() {
+        return rosterForm;
+    }
+
+    public CrewSelectionForm getCrewSltForm() {
+        return crewSltForm;
+    }
+    
+    
     
 }
 

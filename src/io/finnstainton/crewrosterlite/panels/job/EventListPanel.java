@@ -27,15 +27,11 @@ public class EventListPanel extends JPanel implements Observer {
     private JScrollPane scrollPane;
     private JList<String> eventList;
     private DefaultListModel<String> listModel;
-    private String[] values = new String[0];
     
     public EventListPanel() {
         this.setBackground(Color.WHITE);
         
         listModel = new DefaultListModel<>();
-//        if(j != null) {
-//            listModel.addAll(new ArrayList<String>(Arrays.asList(j.getEventRecords().getKeyArray())));
-//        }
         eventList = new JList<>(listModel);
         eventList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         eventList.setLayoutOrientation(JList.VERTICAL);
@@ -43,13 +39,9 @@ public class EventListPanel extends JPanel implements Observer {
         eventList.setBorder(BorderFactory.createTitledBorder("Events"));
         eventList.setName("EventList");
         scrollPane = new JScrollPane(eventList);
-        scrollPane.setPreferredSize(new Dimension(384, 450));
+        scrollPane.setPreferredSize(new Dimension(380, 400));
         this.add(scrollPane);
         this.scrollPane.setVisible(true);
-    }
-    
-    public void updateCrewIDs(String[] eventIDs) {
-        this.values = eventIDs;
     }
     
     public void addController(CrewRosterLiteController controller) {
@@ -65,7 +57,7 @@ public class EventListPanel extends JPanel implements Observer {
             this.listModel.removeAllElements();
             this.listModel.addAll(new ArrayList<String>(Arrays.asList(j.getEventRecords().getKeyArray())));
             this.scrollPane = new JScrollPane(eventList);
-            this.scrollPane.setPreferredSize(new Dimension(384, 450));
+            this.scrollPane.setPreferredSize(new Dimension(380, 400));
             this.add(scrollPane);
             this.revalidate();
             this.repaint();
