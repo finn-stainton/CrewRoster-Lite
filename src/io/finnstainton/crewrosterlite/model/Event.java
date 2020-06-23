@@ -75,6 +75,7 @@ public class Event {
         } else {
             this.ID = "EV" + ID;
         }
+        this.parentJobID = parentJobID;
         this.date = date;
         this.startTime = startTime;
         
@@ -183,7 +184,10 @@ public class Event {
      * @return Boolean regarding if the Crew has be added (true) or not (false).
      */
     public boolean addCrew(String ID){
-        return this.crewIDs.add(ID);
+        if(!isCrewInEvent(ID)){
+            return this.crewIDs.add(ID);
+        }
+        return false;
     }
     
     /**
@@ -192,7 +196,10 @@ public class Event {
      * @return Boolean regarding if the Crew has be removed (true) or not (false).
      */
     public boolean removeCrew(String ID) {
-        return this.crewIDs.remove(ID);
+        if(isCrewInEvent(ID)){
+            return this.crewIDs.remove(ID);
+        }
+        return false;
     }
 
     /**

@@ -62,7 +62,7 @@ public class EventDetailPanel extends JPanel implements Observer{
         
         // Crew List
         this.crewListPanel = new CrewListPanel();
-        this.crewListPanel.setSize(new Dimension(380, 400));
+        this.crewListPanel.setPreferredSize(new Dimension(380, 400));
         crewListPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
                 
         // Split Pane

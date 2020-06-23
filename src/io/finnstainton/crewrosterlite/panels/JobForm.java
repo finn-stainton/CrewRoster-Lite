@@ -66,7 +66,6 @@ public class JobForm extends JFrame implements Observer{
         this.add(new JSeparator(), BorderLayout.CENTER);
         this.add(buttonPanel, BorderLayout.SOUTH);
         
-        this.setAlwaysOnTop(true);
         this.setPreferredSize(new Dimension(300, 300));
         this.setResizable(false);
     }
@@ -81,6 +80,7 @@ public class JobForm extends JFrame implements Observer{
     public void update(Observable o, Object arg) {
         Records<Client> records = (Records<Client>) arg;
         if(records != null) {
+            clientListModel.removeAllElements();
             clientListModel.addAll(new ArrayList<String>(Arrays.asList(records.getKeyArray())));
             clientBox.revalidate();
             clientBox.repaint();

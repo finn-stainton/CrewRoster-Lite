@@ -78,12 +78,14 @@ public class JobDetailPanel extends JPanel implements Observer{
             this.jobTitleLabel.setText(job.getTitle());
             this.clientLabel.setText(job.getClientID());
             this.venueLabel.setText(job.getVenue());
+            this.eventListPanel.update(null, arg);
             this.revalidate();
             this.repaint();
         } else {
             this.jobTitleLabel.setText("No Job Selected");
             this.clientLabel.setText("");
             this.venueLabel.setText("");
+            this.eventListPanel.update(null, null);
             this.revalidate();
             this.repaint();
         }

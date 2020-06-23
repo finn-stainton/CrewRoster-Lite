@@ -22,6 +22,7 @@ import java.awt.event.WindowListener;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -106,12 +107,12 @@ public class CrewRosterLiteController implements ActionListener, WindowListener,
                         type = Event.EventType.valueOf(stype);
                         
                         Job j = this.model.getJobRecords().getValue(jobID);
-                        String eventID = "EV" + j.getID() + String.format("%02d", (j.getEventRecords().getNumberValues()));
+                        String eventID = "EV" + j.getID().substring(2) + String.format("%02d", (j.getEventRecords().getNumberValues()));
                         Event e = new Event(eventID, jobID, date, sTime, fTime, location, type);
                         j.getEventRecords().addValue(eventID, e);
                         
                         //Update view
-                        this.view.getJobPanel().getJobDetailPanel().update(null, this.model.getJobRecords().getValue(currentEventID));
+                        this.view.getJobPanel().getJobDetailPanel().update(null, this.model.getJobRecords().getValue(currentJobID));
                         this.view.getEventForm().setVisible(false);
                     } catch(DateTimeParseException dateError) { // Catch Date or time errors
                         Object[] options = {"Ok"};
@@ -230,10 +231,17 @@ public class CrewRosterLiteController implements ActionListener, WindowListener,
             String crewID = (String)this.view.getCrewSltForm().getCrewBox().getSelectedItem();
             if(crewID != null) {
                 Event ent = (Event)this.model.getJobRecords().getValue(currentJobID).getEventRecords().getValue(currentEventID);
-                ent.addCrew(crewID);
-                this.view.getRosterForm().update(null, ent);
-                this.view.getJobPanel().getEventDetailPanel().update(null, ent);
-                this.view.getCrewSltForm().setVisible(false);
+                
+                if(ent.addCrew(crewID)) {
+                    this.view.getRosterForm().update(null, ent);
+                    this.view.getJobPanel().getEventDetailPanel().update(null, ent);
+                    this.view.getCrewSltForm().setVisible(false);
+                } else {
+                    Object[] options = {"Ok"};
+                    JOptionPane.showOptionDialog(this.view, crewID + " is already Rostered", 
+                        "Crew Error", JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE, 
+                         null, options, null);
+                }
             } else {
                this.view.getCrewSltForm().setVisible(false);
                 Object[] options = {"Ok"};
@@ -256,11 +264,9 @@ public class CrewRosterLiteController implements ActionListener, WindowListener,
                 if (list.getSelectedValue() != null) {
                     this.currentJobID = list.getSelectedValue();
                     this.view.getJobPanel().getJobDetailPanel().update(null, this.model.getJobRecords().getValue(this.currentJobID));
-                    this.view.getJobPanel().getJobDetailPanel().getEventListPanel().update(null, this.model.getJobRecords().getValue(this.currentJobID));
                     this.view.getJobPanel().getEventDetailPanel().update(null, null);
                 } else {
                     this.view.getJobPanel().getJobDetailPanel().update(null, null);
-                    this.view.getJobPanel().getJobDetailPanel().getEventListPanel().update(null, null);
                     this.view.getJobPanel().getEventDetailPanel().update(null, null);
                 }
             }
@@ -270,7 +276,7 @@ public class CrewRosterLiteController implements ActionListener, WindowListener,
                     String eventID = list.getSelectedValue();
                     this.view.getJobPanel().getEventDetailPanel().update(null, this.model.getJobRecords().getValue(currentJobID).getEventRecords().getValue(eventID));
                     this.view.getRosterForm().update(null, this.model.getJobRecords().getValue(currentJobID).getEventRecords().getValue(eventID));
-                     this.currentEventID = eventID;
+                    this.currentEventID = eventID;
                 } else {
                     this.view.getJobPanel().getEventDetailPanel().update(null, null);
                     this.view.getRosterForm().update(null, null);
@@ -296,10 +302,6 @@ public class CrewRosterLiteController implements ActionListener, WindowListener,
             String action = e.getActionCommand();
             System.out.println("ActionEvent: " + action);
             switch(action){
-                case "Login in":
-                    break;
-                case "Save":
-                    break;
                 case "Add Client":
                     ClientForm clientForm = this.view.getClientForm();
                     clientForm.revalidate();
@@ -371,26 +373,36 @@ public class CrewRosterLiteController implements ActionListener, WindowListener,
                     }
                     break;
                 case "Roster Add Crew":
-                    CrewSelectionForm crewSltFrame = this.view.getCrewSltForm();
-                    crewSltFrame.revalidate();
-                    crewSltFrame.repaint();
-                    crewSltFrame.addController(this);
-                    crewSltFrame.pack();
-                    crewSltFrame.setVisible(true);
+                        CrewSelectionForm crewSltFrame = this.view.getCrewSltForm();
+                        crewSltFrame.revalidate();
+                        crewSltFrame.repaint();
+                        crewSltFrame.addController(this);
+                        crewSltFrame.pack();
+                        crewSltFrame.setVisible(true);
                     break;
                 case "Roster Remove Crew":
-                    if(this.selectedCrewID != null) {
+                    if(this.selectedCrewID == null) {
                         Object[] options = {"OK"};
-                        JOptionPane.showOptionDialog(this.view,
+                        JOptionPane.showOptionDialog(this.view.getRosterForm(),
                             "Please select a crew before attempting to remove.", 
                             "Select Crew", JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE, 
                             null, options, null);
                     } else {
                         try{
                             Event ev = (Event)this.model.getJobRecords().getValue(currentJobID).getEventRecords().getValue(currentEventID);
-                            ev.removeCrew(selectedCrewID);
-                            this.view.getRosterForm().getCrewList().revalidate();
-                            this.view.getRosterForm().getCrewList().repaint();
+                            System.out.println(Arrays.toString(ev.getCrewIDs()));
+                            System.out.println(selectedCrewID);
+                            if(ev.removeCrew(selectedCrewID)) {
+                                this.view.getRosterForm().update(null, ev);
+                                this.view.getRosterForm().getCrewList().revalidate();
+                                this.view.getRosterForm().getCrewList().repaint();
+                            } else {
+                                Object[] options = {"OK"};
+                                JOptionPane.showOptionDialog(this.view.getRosterForm(),
+                                    "Sorry, Failed to remove crew.", 
+                                    "Remove Crew", JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE, 
+                                null, options, null);
+                            }
                         } catch(Exception ex){}
                     }
                     break;

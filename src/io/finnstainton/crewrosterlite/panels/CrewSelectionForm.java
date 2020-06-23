@@ -52,7 +52,6 @@ public class CrewSelectionForm extends JFrame implements Observer{;
         this.add(new JSeparator(), BorderLayout.CENTER);
         this.add(buttonPanel, BorderLayout.SOUTH);
         
-        this.setAlwaysOnTop(true);
         this.setPreferredSize(new Dimension(300, 300));
         this.setResizable(false);
     }
@@ -67,6 +66,7 @@ public class CrewSelectionForm extends JFrame implements Observer{;
     public void update(Observable o, Object arg) {
         Records<Crew> records = (Records<Crew>) arg;
         if(records != null) {
+            crewListModel.removeAllElements();
             crewListModel.addAll(new ArrayList<String>(Arrays.asList(records.getKeyArray())));
             crewBox.revalidate();
             crewBox.repaint();

@@ -15,6 +15,9 @@ import static org.junit.Assert.*;
  * @author finns
  */
 public class RecordsTest {
+    private Records<String> stringRecords;
+    private String testKey = "Key";
+    private String testValue = "Test string data";
     
     public RecordsTest() {
     }
@@ -29,6 +32,9 @@ public class RecordsTest {
     
     @Before
     public void setUp() {
+        stringRecords = new Records<>();
+        
+        stringRecords.addValue(testKey, testValue);
     }
     
     @After
@@ -41,9 +47,9 @@ public class RecordsTest {
     @Test
     public void testGetValue() {
         System.out.println("getValue");
-        String key = "";
-        Records instance = new Records();
-        Object expResult = null;
+        String key = testKey;
+        Records instance = stringRecords;
+        Object expResult = testValue;
         Object result = instance.getValue(key);
         assertEquals(expResult, result);
     }
@@ -54,14 +60,12 @@ public class RecordsTest {
     @Test
     public void testAddValue() {
         System.out.println("addValue");
-        String key = "";
-        Object value = null;
-        Records instance = new Records();
-        boolean expResult = false;
+        String key = "Add Key";
+        String value = "Add Value";
+        Records instance = stringRecords;
+        boolean expResult = true;
         boolean result = instance.addValue(key, value);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -70,13 +74,11 @@ public class RecordsTest {
     @Test
     public void testContainsKey() {
         System.out.println("containsKey");
-        String key = "";
-        Records instance = new Records();
-        boolean expResult = false;
+        String key = testKey;
+        Records instance = stringRecords;
+        boolean expResult = true;
         boolean result = instance.containsKey(key);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -85,13 +87,11 @@ public class RecordsTest {
     @Test
     public void testContainsValue() {
         System.out.println("containsValue");
-        Object value = null;
-        Records instance = new Records();
-        boolean expResult = false;
+        Object value = testValue;
+        Records instance = stringRecords;
+        boolean expResult = true;
         boolean result = instance.containsValue(value);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -100,13 +100,11 @@ public class RecordsTest {
     @Test
     public void testRemoveValue() {
         System.out.println("removeValue");
-        String key = "";
-        Records instance = new Records();
-        Object expResult = null;
+        String key = testKey;
+        Records instance = stringRecords;
+        Object expResult = testValue;
         Object result = instance.removeValue(key);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -119,8 +117,6 @@ public class RecordsTest {
         int expResult = 0;
         int result = instance.getNumberValues();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -129,12 +125,10 @@ public class RecordsTest {
     @Test
     public void testGetKeyArray() {
         System.out.println("getKeyArray");
-        Records instance = new Records();
-        String[] expResult = null;
+        Records instance = stringRecords;
+        String[] expResult = new String[]{testKey};
         String[] result = instance.getKeyArray();
         assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -143,12 +137,10 @@ public class RecordsTest {
     @Test
     public void testIsEmpty() {
         System.out.println("isEmpty");
-        Records instance = new Records();
+        Records instance = stringRecords;
         boolean expResult = false;
         boolean result = instance.isEmpty();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -157,10 +149,8 @@ public class RecordsTest {
     @Test
     public void testPrintValues() {
         System.out.println("printValues");
-        Records instance = new Records();
+        Records instance = stringRecords;
         instance.printValues();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

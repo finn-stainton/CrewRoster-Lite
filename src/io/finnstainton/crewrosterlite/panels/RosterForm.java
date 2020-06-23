@@ -51,14 +51,14 @@ public class RosterForm extends JFrame implements Observer{
         crewList.setLayoutOrientation(JList.VERTICAL);
         crewList.setVisibleRowCount(-1);
         crewList.setBorder(BorderFactory.createTitledBorder("Crew"));
-        crewList.setName("Crew");
+        crewList.setName("CrewList");
         scrollPane = new JScrollPane(crewList);
         scrollPane.setPreferredSize(new Dimension(450, 170));
         inputPanel.add(scrollPane);
         this.scrollPane.setVisible(true);
         
         // Button Panel
-        JPanel buttonPanel = new JPanel(new GridLayout(0,4));
+        JPanel buttonPanel = new JPanel(new GridLayout(0,3));
         buttonPanel.add(addButton);
         addButton.setActionCommand("Roster Add Crew");
         buttonPanel.add(deleteButton);
@@ -70,7 +70,6 @@ public class RosterForm extends JFrame implements Observer{
         this.add(new JSeparator(), BorderLayout.CENTER);
         this.add(buttonPanel, BorderLayout.SOUTH);
         
-        this.setAlwaysOnTop(true);
         this.setPreferredSize(new Dimension(450, 250));
         this.setResizable(false);
         
@@ -83,12 +82,14 @@ public class RosterForm extends JFrame implements Observer{
         addButton.addActionListener(controller);
         deleteButton.addActionListener(controller);
         doneButton.addActionListener(controller);
+        crewList.addListSelectionListener(controller);
     }
 
     @Override
     public void update(Observable o, Object arg) {
         Event event = (Event) arg;
         this.event = event;
+        this.listModel.removeAllElements();
         this.listModel.addAll(new ArrayList<String>(Arrays.asList(event.getCrewIDs())));
         this.crewList.revalidate();
         this.crewList.repaint();

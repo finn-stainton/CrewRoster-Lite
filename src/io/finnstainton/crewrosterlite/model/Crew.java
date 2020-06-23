@@ -37,6 +37,7 @@ public class Crew extends Person{
         } else {
             this.username = lastName.toLowerCase() + firstName.toLowerCase();
         }
+        this.events = new Records<>();
     }
 
     public String getUsername() {

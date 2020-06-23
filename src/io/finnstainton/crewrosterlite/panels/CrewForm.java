@@ -41,7 +41,6 @@ public class CrewForm extends JFrame {
 //        this.add(new JSeparator());
         this.add(buttonPanel, BorderLayout.SOUTH);
         
-        this.setAlwaysOnTop (true);
         this.setPreferredSize(new Dimension(300, 300));
         this.setResizable(false);
     }

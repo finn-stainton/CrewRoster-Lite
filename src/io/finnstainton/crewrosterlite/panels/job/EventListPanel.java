@@ -52,15 +52,27 @@ public class EventListPanel extends JPanel implements Observer {
     public void update(Observable o, Object arg) {
         try{
             Job j = (Job)arg;
-            this.remove(scrollPane);
-            this.invalidate();
-            this.listModel.removeAllElements();
-            this.listModel.addAll(new ArrayList<String>(Arrays.asList(j.getEventRecords().getKeyArray())));
-            this.scrollPane = new JScrollPane(eventList);
-            this.scrollPane.setPreferredSize(new Dimension(380, 400));
-            this.add(scrollPane);
-            this.revalidate();
-            this.repaint();
+            if(j != null) {
+                this.remove(scrollPane);
+                this.invalidate();
+                this.listModel.removeAllElements();
+                this.listModel.addAll(new ArrayList<String>(Arrays.asList(j.getEventRecords().getKeyArray())));
+                this.scrollPane = new JScrollPane(eventList);
+                this.scrollPane.setPreferredSize(new Dimension(380, 400));
+                this.add(scrollPane);
+                this.revalidate();
+                this.repaint();
+            } else {
+                this.remove(scrollPane);
+                this.invalidate();
+                this.listModel.removeAllElements();
+                this.listModel.addAll(new ArrayList<String>(Arrays.asList(new String[0])));
+                this.scrollPane = new JScrollPane(eventList);
+                this.scrollPane.setPreferredSize(new Dimension(380, 400));
+                this.add(scrollPane);
+                this.revalidate();
+                this.repaint();
+            }
         } catch(ClassCastException c) {
             
         }

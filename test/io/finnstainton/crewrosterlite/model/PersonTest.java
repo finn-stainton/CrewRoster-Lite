@@ -22,7 +22,7 @@ public class PersonTest {
     
     @BeforeClass
     public static void setUpClass() {
-        person = new Person("CP0001", "Finn", "Stainton", "example@example.com");
+        
     }
     
     @AfterClass
@@ -31,6 +31,7 @@ public class PersonTest {
     
     @Before
     public void setUp() {
+        person = new Person("CP0001", "Finn", "Stainton", "example@example.com");
     }
     
     @After

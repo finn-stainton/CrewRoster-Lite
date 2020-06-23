@@ -78,7 +78,9 @@ public class CrewRosterLiteModel extends Observable{
             for(String eventID : eventRecords.getKeyArray()) {
                 if(eventRecords.getValue(eventID) != null) {
                     success = db.addEvent(eventRecords.getValue(eventID));
+                    System.out.println(eventID + " " + (success ? "Saved" : "Didn't Save"));
                 }
+                
             }
         }
         

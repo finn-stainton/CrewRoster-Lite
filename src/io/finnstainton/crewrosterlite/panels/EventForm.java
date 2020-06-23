@@ -123,6 +123,7 @@ public class EventForm extends JFrame implements Observer{
     public void update(Observable o, Object arg) {
         Records<Job> records = (Records<Job>)arg;
         if(records != null) {
+            parentJobBoxModel.removeAllElements();
             parentJobBoxModel.addAll(new ArrayList<String>(Arrays.asList(records.getKeyArray())));
             parentJob.revalidate();
             parentJob.repaint();

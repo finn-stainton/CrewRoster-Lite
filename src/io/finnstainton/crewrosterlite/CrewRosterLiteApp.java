@@ -26,7 +26,6 @@ public class CrewRosterLiteApp {
         model.getJobRecords().addObserver(view.getJobPanel());
         model.getJobRecords().addObserver(view.getEventForm());
         model.getJobRecords().addObserver(view.getJobPanel().getJobListPanel());
-        model.getJobRecords().addObserver(view.getJobPanel().getJobDetailPanel().getEventListPanel());
         
         controller.addModel(model);
         controller.addView(view);
