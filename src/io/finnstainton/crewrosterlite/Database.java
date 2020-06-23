@@ -31,6 +31,9 @@ public class Database {
     private Statement statement;
     private ResultSet crewRS, clientRS, contactRS, jobRS, eventRS;
     
+    /**
+     * Database constructor, Tries to open a connection with the embedded Derby DB
+     */
     public Database() {
         if (!connect()) {
             Object[] options = {"OK"};
@@ -60,6 +63,9 @@ public class Database {
         return success;
     }
     
+    /**
+     * Setup Tables if they don't exist 
+     */
     public void dbSetup() {
         try {
             // Crew Table
@@ -106,6 +112,11 @@ public class Database {
         }
     }
     
+    /**
+     * Check if table exists
+     * @param tableName String of Table
+     * @return boolean whether the table exists or not
+     */
     public boolean checkTable(String tableName) {
         boolean tableExists = false;
         try {
@@ -126,16 +137,19 @@ public class Database {
         return tableExists;
     }
     
+    
     // Add Crew
     public boolean addCrew(Crew crew) {
         boolean success = false;
         try {
             ResultSet rs = statement.executeQuery("SELECT * FROM Crew WHERE ID = '" + crew.getID() + "'");
           
+            // Update if Crew is in DB
             if(rs.next()){
                 statement.executeUpdate("DELETE FROM Crew WHERE ID = '" + crew.getID() + "'");
-                statement.executeUpdate("INSERT INTO Crew (ID, FIRSTNAME, LASTNAME, CONTACT) VALUES ('" + crew.getID() + "', '" + crew.getFirstName() + "', '" + crew.getLastName() + "', '" + crew.getContact() +"')");
-                
+                statement.executeUpdate("INSERT INTO Crew (ID, FIRSTNAME, LASTNAME, CONTACT) VALUES ('" + crew.getID() + "', '" + crew.getFirstName() + "', '" + crew.getLastName() + "', '" + crew.getContact() +"')"); 
+            } else { // Insert new crew
+                statement.executeUpdate("INSERT INTO Crew (ID, FIRSTNAME, LASTNAME, CONTACT) VALUES ('" + crew.getID() + "', '" + crew.getFirstName() + "', '" + crew.getLastName() + "', '" + crew.getContact() +"')"); 
             }
             success = true;
         } catch (SQLException ex) {
@@ -143,6 +157,7 @@ public class Database {
         }
         return success;
     }
+    
     
     // Add Client
     public boolean addClient(Client client) {
@@ -164,6 +179,18 @@ public class Database {
                         System.err.println("clientContact SQL Exception: " + ex.getMessage());
                     } catch(Exception e){}
                 }
+            } else {
+                statement.executeUpdate("INSERT INTO Clients (ID, TITLE) VALUES ('" + client.getID() + "', '" + client.getName() +"')");
+                
+                Person person = client.getContact();
+                //Add Contact Persons
+                if(person != null){
+                    try {
+                        statement.executeUpdate("INSERT INTO ClientContacts (ID, FIRSTNAME, LASTNAME, CONTACT, CLIENTID) VALUES ('" + person.getID() + "', '" + person.getFirstName() + "', '" + person.getLastName() + "', '" + person.getContact() + "', '" + client.getID() + "')");
+                    } catch (SQLException ex) {
+                        System.err.println("clientContact SQL Exception: " + ex.getMessage());
+                    } catch(Exception e){}
+                }
             }
             success = true;
         } catch (SQLException ex) {
@@ -171,6 +198,7 @@ public class Database {
         }
         return success;
     }
+    
         
     // Add Job
     public boolean addJob(Job job) {
@@ -181,6 +209,8 @@ public class Database {
             if(rs.next()){
                 statement.executeUpdate("DELETE FROM Jobs WHERE ID = '" + job.getID() + "'");
                 statement.executeUpdate("INSERT INTO Jobs (ID, TITLE, VENUE, CLIENTID) VALUES ('" + job.getID() + "', '" + job.getTitle() + "', '" + job.getVenue() + "', '" + job.getClientID() +"')");
+            } else {
+                statement.executeUpdate("INSERT INTO Jobs (ID, TITLE, VENUE, CLIENTID) VALUES ('" + job.getID() + "', '" + job.getTitle() + "', '" + job.getVenue() + "', '" + job.getClientID() +"')");
             }
             success = true;
         } catch (SQLException ex) {
@@ -188,6 +218,7 @@ public class Database {
         }
         return success;
     }
+    
     
     // Add Event
     public boolean addEvent(Event event) {
@@ -234,6 +265,7 @@ public class Database {
         return success;
     }
     
+    
     // Load Crew
     public void loadCrew(Records<Crew> crewRecords) {
         if(checkTable("Crew")) {
@@ -249,6 +281,7 @@ public class Database {
             }
         }
     }
+    
     
     // Load Clients
     public void loadClients(Records<Client> clientRecords) {
@@ -267,6 +300,8 @@ public class Database {
         }
     }
     
+    
+    // Load Clients Contacts
     public void loadClientContacts(Records<Client> clientRecords) {
         if(checkTable("ClientContacts")) {
             for(String ID : clientRecords.getKeyArray()) {
@@ -287,6 +322,7 @@ public class Database {
             }
         }
     }
+    
     
     // Get all Jobs
     public void loadJobs(Records<Job> jobRecords) {
@@ -320,6 +356,7 @@ public class Database {
         }
     }
     
+    
     // Load Events to Crew Object
     public void loadCrewEvents(Crew crew) {
         try{
@@ -341,14 +378,4 @@ public class Database {
         }
     }
 
-    // Remove all Crew
-    
-    // Remove all Clients
-    
-    // Remove all ClientContacts
-    
-    // Remove all Jobs
-    
-    // Remove all events
-    
 }

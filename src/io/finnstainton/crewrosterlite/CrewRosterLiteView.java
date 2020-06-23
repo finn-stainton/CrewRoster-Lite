@@ -36,6 +36,9 @@ public class CrewRosterLiteView extends JFrame implements Observer {
     private RosterForm rosterForm = new RosterForm();
     private CrewSelectionForm crewSltForm = new CrewSelectionForm();
     
+    /**
+     * View constructor, setup of GUI frames and panels
+     */
     public CrewRosterLiteView() {
         super("CrewRoster Lite");
         
@@ -59,6 +62,7 @@ public class CrewRosterLiteView extends JFrame implements Observer {
         
     }
     
+    // Add controller to GUI Components
     public void addController(CrewRosterLiteController controller) {
         this.jobPanel.addController(controller);
         this.navbar.addController(controller);
@@ -70,7 +74,7 @@ public class CrewRosterLiteView extends JFrame implements Observer {
        
     }
 
-    // Get Components 
+    // Getters
     public JobForm getJobForm() {
         return jobForm;
     }
@@ -99,25 +103,4 @@ public class CrewRosterLiteView extends JFrame implements Observer {
         return crewSltForm;
     }
     
-    
-    
 }
-
-//
-//        
-//        this.setLayout(new GridLayout());
-//        this.signinPanel = new SignInPanel();
-//        this.signupPanel = new SignUpPanel();
-//        this.jobPanel = new JobPanel(model.getJobRecords());
-//        
-//        content.setLayout(cardLayout);
-//        content.add(this.signinPanel);
-//        content.add(this.signupPanel);
-//        content.add(this.jobPanel);
-//        
-//        this.cardLayout.addLayoutComponent(this.signinPanel, "signin");
-//        this.cardLayout.addLayoutComponent(this.signupPanel, "signup");
-//        this.cardLayout.addLayoutComponent(this.jobPanel, "job");
-//        this.cardLayout.show(content, "job");
-//        
-//        this.add(content);

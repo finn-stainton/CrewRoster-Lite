@@ -76,6 +76,7 @@ public class EventForm extends JFrame implements Observer{
             // Button Panel
             JPanel buttonPanel = new JPanel(new GridLayout(0,2));
             buttonPanel.add(doneButton);
+            doneButton.setActionCommand("Add New Event");
             buttonPanel.add(cancelButton);
             cancelButton.setActionCommand("Close Event Form");
 
@@ -88,13 +89,8 @@ public class EventForm extends JFrame implements Observer{
             this.setResizable(false);
     }
     
-    public void addController(CrewRosterLiteController controller) {
-        doneButton.addActionListener(e -> controller.eventFormListener());
-        cancelButton.addActionListener(controller);
-        eventType.addActionListener(controller);
-        parentJob.addActionListener(controller);
-    }
-
+    // Getters
+    
     public JTextField getDateField() {
         return dateField;
     }
@@ -118,6 +114,16 @@ public class EventForm extends JFrame implements Observer{
     public JComboBox getTypeBox() {
         return eventType;
     }
+    
+    // Add 
+    public void addController(CrewRosterLiteController controller) {
+        doneButton.addActionListener(controller);
+        cancelButton.addActionListener(controller);
+        eventType.addActionListener(controller);
+        parentJob.addActionListener(controller);
+    }
+
+    
 
     @Override
     public void update(Observable o, Object arg) {

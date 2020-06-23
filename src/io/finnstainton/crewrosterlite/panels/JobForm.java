@@ -59,6 +59,7 @@ public class JobForm extends JFrame implements Observer{
         // Button Panel
         JPanel buttonPanel = new JPanel(new GridLayout(0,2));
         buttonPanel.add(doneButton);
+        doneButton.setActionCommand("Add New Job");
         buttonPanel.add(cancelButton);
         cancelButton.setActionCommand("Close Job Form");
         
@@ -72,7 +73,7 @@ public class JobForm extends JFrame implements Observer{
     
     public void addController(CrewRosterLiteController controller) {
         clientBox.addActionListener(controller);
-        doneButton.addActionListener(e -> controller.jobFormListener());
+        doneButton.addActionListener(controller);
         cancelButton.addActionListener(controller);
     }
 

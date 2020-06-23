@@ -32,6 +32,7 @@ public class CrewForm extends JFrame {
         // Button Panel
         JPanel buttonPanel = new JPanel(new GridLayout(0,2));
         buttonPanel.add(doneButton);
+        doneButton.setActionCommand("Add New Crew");
         buttonPanel.add(cancelButton);
         cancelButton.setActionCommand("Close Crew Form");
         
@@ -50,7 +51,7 @@ public class CrewForm extends JFrame {
     }
         
     public void addController(CrewRosterLiteController controller) {
-        doneButton.addActionListener(e -> controller.crewFormListener());
+        doneButton.addActionListener(controller);
         cancelButton.addActionListener(controller);
     }
 }

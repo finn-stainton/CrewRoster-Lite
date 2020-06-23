@@ -45,6 +45,7 @@ public class CrewSelectionForm extends JFrame implements Observer{;
         // Button Panel
         JPanel buttonPanel = new JPanel(new GridLayout(0,2));
         buttonPanel.add(addButton);
+        addButton.setActionCommand("Slt Add Crew");
         buttonPanel.add(cancelButton);
         cancelButton.setActionCommand("Close Crew Slt Form");
         
@@ -58,7 +59,7 @@ public class CrewSelectionForm extends JFrame implements Observer{;
     
     public void addController(CrewRosterLiteController controller) {
         crewBox.addActionListener(controller);
-        addButton.addActionListener(e -> controller.crewSltFormListener());
+        addButton.addActionListener(controller);
         cancelButton.addActionListener(controller);
     }
 

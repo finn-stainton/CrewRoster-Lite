@@ -4,18 +4,14 @@
 package io.finnstainton.crewrosterlite.model;
 
 import io.finnstainton.crewrosterlite.Database;
-import java.util.Arrays;
 import java.util.Observable;
-import javax.swing.JOptionPane;
 
 /**
  * Model
  * @author finnstainton (17982742)
  */
 public class CrewRosterLiteModel extends Observable{
-    private static final int MAX_YEAR = 2100;
-    private Database db;// Do you want to get all records from db or access them one at a time (maybe just load all IDs)?
-    private String[] crewIDs, clientIDs, jobIDs;
+    private Database db;
     private static Records<Crew> crewRecords;
     private static Records<Client> clientRecords;
     private static Records<Job> jobRecords;
@@ -46,6 +42,9 @@ public class CrewRosterLiteModel extends Observable{
         return jobRecords;
     }
     
+    /**
+     * Load Crew, Clients, Jobs and there Events from DB
+     */
     public void loadFromDB() {
         // Try load from db
         System.out.println("Loading from DB");
@@ -58,27 +57,34 @@ public class CrewRosterLiteModel extends Observable{
         }
     }
     
+    /**
+     * Save Crew, Clients, Jobs and there Events to DB
+     * @return boolean whether everything saved
+     */
     public boolean saveToDB() {
         boolean success = true;
         
         // Crew
+        System.out.println("Attempting to save Crew");
         for(String crewID : crewRecords.getKeyArray()) {
             success = db.addCrew(crewRecords.getValue(crewID));
         }
         
         // Clients
+        System.out.println("Attempting to save Clients");
         for(String clientID : clientRecords.getKeyArray()) {
             success = db.addClient(clientRecords.getValue(clientID));  
         }
         
         // Jobs
+        System.out.println("Attempting to save Jobs");
         for(String jobID : jobRecords.getKeyArray()) {
             success = db.addJob(jobRecords.getValue(jobID));
             Records<Event> eventRecords = jobRecords.getValue(jobID).getEventRecords();
             for(String eventID : eventRecords.getKeyArray()) {
                 if(eventRecords.getValue(eventID) != null) {
                     success = db.addEvent(eventRecords.getValue(eventID));
-                    System.out.println(eventID + " " + (success ? "Saved" : "Didn't Save"));
+                    
                 }
                 
             }

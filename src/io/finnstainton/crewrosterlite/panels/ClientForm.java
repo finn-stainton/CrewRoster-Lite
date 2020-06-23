@@ -35,6 +35,7 @@ public class ClientForm extends JFrame {
         // Button Panel
         JPanel buttonPanel = new JPanel(new GridLayout(0,2));
         buttonPanel.add(doneButton);
+        doneButton.setActionCommand("Add New Client");
         buttonPanel.add(cancelButton);
         cancelButton.setActionCommand("Close Client Form");
         
@@ -56,7 +57,7 @@ public class ClientForm extends JFrame {
     }
         
     public void addController(CrewRosterLiteController controller) {
-        doneButton.addActionListener(e -> controller.clientFormListener());
+        doneButton.addActionListener(controller);
         cancelButton.addActionListener(controller);
     }
 }
